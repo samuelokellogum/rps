@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
-    <div class="row">
+    <div id="score-config
+    " class="row">
         
         <div class="col-md-4">
             <h5>Subjects</h5>
@@ -30,7 +31,10 @@
             <h5>&nbsp;</h5>
             <div class="row">
                 <div class="col-md-12 my-card">
-                    <h3>Score Configuration</h3>
+                    <div class="col-md-12" style="padding: 20px">
+                        <span style="font-size: 20px; font-weight: 600" >Score Configuration </span> <button @click="confirmConfig('{{ $clazz->id }}')" class="btn btn-primary btn-sm pull-right">Confirm</button>
+                    </div>
+                    {{--  <h3>Score Configuration <button class="btn btn-primary btn-sm">Confirm</button></h3>  --}}
                     <hr>
 
                     <table class="table table-bordered config-table">
@@ -40,14 +44,17 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <select class="form-control">
+                                    <select id="grading" name="grading" class="form-control">
                                         @foreach (\App\Grading::all() as $grade)
                                             <option value="{{ $grade->id }}">{{ $grade->name }}</option>
                                         @endforeach
                                     </select>
                                 </td>
                                 <td>
-                                    <button @click="showAdvancedGrading" class="btn btn-default btn-sm">ADVANCED GRADING</button>
+                                    <button @click="showAdvancedGrading('{{ $clazz->id }}')" class="btn btn-default btn-sm">ADVANCED GRADING</button>
+                                     <label style="margin-left: 30px" class="cr-label">
+                                        <input type="checkbox" name="allow_advanced_grading"  value="yes"> <span class="label-text"></span>
+                                    </label>
                                 </td>
                             </tr>
                         </tbody>
@@ -66,7 +73,7 @@
                             <td>Sum Subject Marks: </td>
                             <td>
                                 <label class="cr-label">
-                                    <input type="radio" name="score_by"  value="subject"> <span class="label-text"></span>
+                                    <input type="radio" name="score_by"  value="subject" checked> <span class="label-text"></span>
                                 </label>
                             </td>
                         </tr>
@@ -96,7 +103,7 @@
                             <td>Average mark: </td>
                             <td>
                                 <label class="cr-label">
-                                    <input type="radio" name="position_by"  value="marks"> <span class="label-text"></span>
+                                    <input type="radio" name="position_by"  value="marks" checked> <span class="label-text"></span>
                                 </label>
                             </td>
                         </tr>
@@ -107,7 +114,7 @@
                                     <input type="radio" name="position_by"  value="points"> <span class="label-text"></span>
                                 </label>
 
-                                <select name="points_by">
+                                <select id="points_by" name="points_by">
                                     <option value="asc">Points Ascending</option>
                                     <option value="desc">Points Descending</option>
                                 </select>

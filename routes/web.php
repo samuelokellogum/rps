@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Http\Request;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -82,6 +84,9 @@ Route::post("addEXamSet", "ExamController@addEXamSet")->name("addEXamSet");
 Route::get("reportConfig", "ReportConfigController@index")->name("reportConfig");
 Route::get("getSubjectPatsForClass", "ReportConfigController@getSubjectPatsForClass")->name("getSubjectPatsForClass");
 Route::get("addPartsToClass", "ReportConfigController@addPartsToClass")->name("addPartsToClass");
+Route::get("getAdGrade", "ReportConfigController@getAdGrade")->name("getAdGrade");
+Route::get("addReportConfig", "ReportConfigController@addReportConfig")->name("addReportConfig");
+Route::post("addAdvancedGrade", "ReportConfigController@addAdvancedGrade")->name("addAdvancedGrade");
 
 //marks
 Route::get("marks", "MarksController@index")->name("marks");
@@ -103,19 +108,11 @@ Route::post("updateMark", "ResultsController@updateMark")->name("updateMark");
 
 
 
-Route::get("test", function(){
-  $class = \App\Clazz::find(1);
-  $subject = \App\subject::find(1);
-  $pats = $subject->particulars;
+Route::get("test/{val}", function(Request $req){
+  $max = 2.5;
+  $min = 1;
 
-   dump($class->patsForSubject($subject->id)->pluck('subject_pat_id'));
-  foreach ($pats as $key => $value) {
-     if(in_array($value->id, $class->patsForSubject($subject->id)->pluck("subject_pat_id")->toArray())){
-      dump("Found ".$value->name);
-     }else{
-       dump("Not Found ".$value->name);
-     }
-  }
+  $ts = Util::in_range($req->val, $min, $max);
+  dd($ts);
   
-  dd($pats);
 });

@@ -64510,6 +64510,22 @@ $(document).ready(function () {
     $("#form-add-student").validate();
     $("#form-update-temp").validate();
     $("#form-exam-set").validate();
+    $("#form-advanced-config").validate({
+        rules: {
+            range_1: {
+                required: true,
+                number: true
+            },
+            range_2: {
+                required: true,
+                number: true
+            },
+            consist_of: {
+                required: true,
+                number: true
+            }
+        }
+    });
     $("#form-update-mark").validate({
         rules: {
             mark: {
@@ -72479,7 +72495,10 @@ var resultConfig = {
             rc_subject_data: {},
             rc_subject: {},
             rc_class: {},
-            rc_subject_pats: []
+            rc_subject_pats: [],
+            rc_adva_grades: {},
+            rc_this_adva_grade: {}
+
         };
     },
 
@@ -72522,8 +72541,74 @@ var resultConfig = {
                 }
             });
         },
-        showAdvancedGrading: function showAdvancedGrading() {
-            $("#modal-advanced-grading").modal('show');
+        showAdvancedGrading: function showAdvancedGrading(clazz_id) {
+            var app = this;
+            app.rc_this_adva_grade = {};
+            $.ajax({
+                url: base_url + "/getAdGrade",
+                data: {
+                    clazz_id: clazz_id
+                },
+                success: function success(data) {
+                    app.rc_adva_grades = data;
+                    $("#modal-advanced-grading").modal('show');
+                }
+            });
+        },
+        addAdvancedConfig: function addAdvancedConfig() {
+            var app = this;
+            if ($("#form-advanced-config").valid()) {
+                $.ajax({
+                    url: base_url + "/addAdvancedGrade",
+                    type: "post",
+                    data: $("#form-advanced-config").serialize(),
+                    success: function success(data) {
+                        if (data.type == 'fail') {
+                            swal('error', data.message, '');
+                        } else {
+                            app.rc_this_adva_grade = {};
+                            app.rc_adva_grades = data.ad_grades;
+                            app.$iziToast.success({
+                                position: 'topCenter',
+                                message: "Subjects updated"
+                            });
+                        }
+                    }
+                });
+            }
+        },
+        editAdGrade: function editAdGrade(index) {
+            var app = this;
+            app.rc_this_adva_grade = app.rc_adva_grades[index];
+        },
+        confirmConfig: function confirmConfig(clazz_id) {
+            var app = this;
+            var scoreBy = $("input[name='score_by']:checked").val();
+            var positionBy = $("input[name='position_by']:checked").val();
+            var pointsBy = $("#points_by").val();
+            var grading = $("#grading").val();
+            var advanced_grade = $("input[name='allow_advanced_grading']:checked").val();
+
+            var obj = {
+                "score_by": scoreBy,
+                "position_by": positionBy,
+                "points_by": pointsBy,
+                "grading_id": grading,
+                "clazz_id": clazz_id,
+                "advanced_grading": advanced_grade
+            };
+
+            $.ajax({
+                url: base_url + '/addReportConfig',
+                data: obj,
+                success: function success(data) {
+                    console.log(data);
+                    app.$iziToast.success({
+                        position: 'topCenter',
+                        message: "Configurations done"
+                    });
+                }
+            });
         }
     }
 

@@ -41,6 +41,22 @@ $(document).ready(function(){
     $("#form-add-student").validate()
     $("#form-update-temp").validate()
     $("#form-exam-set").validate()
+    $("#form-advanced-config").validate({
+        rules:{
+            range_1:{
+                required: true,
+                number:true
+            },
+            range_2:{
+                required: true,
+                number:true
+            },
+            consist_of:{
+                required: true,
+                number: true
+            }
+        }
+    })
     $("#form-update-mark").validate({
         rules:{
             mark:{

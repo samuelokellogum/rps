@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Clazz;
 use App\ClassSubPats;
 use App\Subject;
+use App\AdvancedGrading;
+use App\ReportConfig;
+use Util;
 
 class ReportConfigController extends Controller
 {
@@ -39,5 +42,56 @@ class ReportConfigController extends Controller
 
     public function reportConfig(Request $request){
 
+    }
+
+    public function getAdGrade(Request $request){
+        return response()->json(AdvancedGrading::where("clazz_id", $request->clazz_id)->orderBy("consist_of", "desc")->get());
+    }
+
+    public function addAdvancedGrade(Request $request){
+
+        $details =  AdvancedGrading::where("clazz_id", $request->clazz_id)->orderBy("consist_of", "desc")->get();
+
+        $mark_start = $request->range_1;
+        $mark_end = $request->range_2;
+        if($mark_end > $mark_start){
+            $mark_start_ = $mark_end;
+            $mark_end_ = $mark_start;
+        }else{
+            $mark_start_ = $mark_start;
+            $mark_end_ = $mark_end;
+        }
+
+        
+
+        foreach ($details as $val){
+            if(Util::in_range($mark_end_, $val->range_1, $val->range_2) && (!isset($request->id))){
+                return response()->json(["type" => "fail", "message" => "Value defined already in range {$val->range_1} - {$val->range_2}", "ad_grades" => $details]);
+            }
+        }
+
+        
+        AdvancedGrading::updateOrCreate([
+            "id" => $request->id
+        ],[
+            "symbol" => $request->symbol,
+            "clazz_id" => $request->clazz_id,
+            "range_1" => $request->range_1,
+            "range_2" => $request->range_2,
+            "consist_of" => $request->consist_of
+        ]);
+
+        $ad_grade = AdvancedGrading::where("clazz_id", $request->clazz_id)->orderBy("consist_of", "desc")->get();
+          return response()->json(["type" => "success", "message" => "Done !!", "ad_grades" => $ad_grade]);
+    }
+
+    public function addReportConfig(Request $request){
+
+     
+       $config =  ReportConfig::updateOrCreate([
+            "clazz_id" => $request->clazz_id
+        ],$request->all());
+
+        return response()->json($config);
     }
 }
