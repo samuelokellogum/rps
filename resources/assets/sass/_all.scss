@@ -1,0 +1,103 @@
+@import "components/check_radio";
+@import "components/file_picker";
+@import "components/marks";
+@import "components/report";
+@import "components/results";
+@import "components/report_config";
+
+.printable-table{
+  tr{
+    td{
+      height: 30px;
+    }
+  }
+}
+
+@media print {
+  table {
+    page-break-after: auto
+  }
+
+  tr {
+    page-break-inside: avoid;
+    page-break-after: auto
+  }
+
+  td {
+    page-break-inside: avoid;
+    page-break-after: auto;
+     height: 30px;
+  }
+
+  thead {
+    display: table-header-group
+  }
+
+  tfoot {
+    display: table-footer-group
+  }
+}
+
+label{
+  &.error{
+    color: red;
+  }
+}
+
+input{
+  background-color: #ffffff !important;
+}
+
+.card-background{
+  width: 100%;
+  background: white;
+  border-radius: 2px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.19);
+
+  &.is-rounded{
+    border-radius: 8px;
+  }
+  &.has-padding{
+    padding: 20px;
+  }
+}
+
+//image
+.image-preview{
+  width: 200px;
+  height: 200px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+//form spaces in modal
+.modal-body{
+  form{
+    div[class*='col-']{
+      margin-bottom: 20px;
+    }
+  }
+}
+
+
+.rps-separator{
+  border: 1px solid rgb(204, 204, 204);
+  margin-top: 15px;
+  width: 40%;
+  margin-left: 20px;
+}

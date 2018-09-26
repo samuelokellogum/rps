@@ -1,0 +1,34 @@
+.file-picker {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  width: 100%;
+  height: 200px;
+  background: #cccccc;
+  border-radius: 5px;
+
+  .file-icon{
+    position: absolute;
+    left: 40%;
+    top: 18%;
+    text-align: center;
+  }
+
+  .file-label{
+    background-color: #ffffff;
+    width: 100%;
+    height: 40px;
+    position: absolute;
+    bottom: 0;
+    border: 1px solid #cccccc;
+    padding: 5px;
+  }
+}
+
+.file-picker input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}

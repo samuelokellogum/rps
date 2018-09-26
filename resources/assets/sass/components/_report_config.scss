@@ -1,0 +1,27 @@
+.report-config-container{
+    border: 1px solid #cccccc;
+    padding: 10px;
+}
+
+.my-card{
+    width: 100%;
+    background: white;
+    border-radius: 3px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.19);
+}
+
+.config-table{
+    margin-bottom: 40px;
+
+    th{
+        background: #cccccc;
+        h5{
+            font-weight: 600;
+        }
+    }
+
+    td:nth-child(1){
+        width: 60%;
+    }
+}
+

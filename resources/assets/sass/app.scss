@@ -1,0 +1,20 @@
+
+// Fonts
+//@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+
+// Variables
+@import "variables";
+
+@import "all";
+
+// Bootstrap
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+//datatables
+@import "~datatables.net-bs/css/dataTables.bootstrap.min.css";
+
+//font awesome
+@import "~font-awesome/css/font-awesome.min.css";
+
+//date picker
+@import "../css/bootstrap-datepicker.min.css";
