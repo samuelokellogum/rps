@@ -22293,14 +22293,14 @@ Vue.compile = compileToFunctions;
 
 module.exports = Vue;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(43).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(45).setImmediate))
 
 /***/ }),
 /* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(12);
-module.exports = __webpack_require__(68);
+module.exports = __webpack_require__(70);
 
 
 /***/ }),
@@ -22309,18 +22309,18 @@ module.exports = __webpack_require__(68);
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__plugins_izitoast__ = __webpack_require__(45);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixin_clazz__ = __webpack_require__(53);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixin_subject__ = __webpack_require__(54);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixin_term__ = __webpack_require__(55);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixin_grade__ = __webpack_require__(56);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixin_student__ = __webpack_require__(57);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixin_importStudents__ = __webpack_require__(58);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__mixin_exam__ = __webpack_require__(59);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__mixin_marks__ = __webpack_require__(60);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__mixin_results__ = __webpack_require__(61);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__mixin_printer__ = __webpack_require__(62);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__mixin_results_config__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__plugins_izitoast__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixin_clazz__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixin_subject__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixin_term__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixin_grade__ = __webpack_require__(58);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixin_student__ = __webpack_require__(59);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixin_importStudents__ = __webpack_require__(60);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__mixin_exam__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__mixin_marks__ = __webpack_require__(62);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__mixin_results__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__mixin_printer__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__mixin_results_config__ = __webpack_require__(65);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -22333,7 +22333,7 @@ __webpack_require__(13);
 window.Vue = __webpack_require__(10);
 
 Vue.use(__WEBPACK_IMPORTED_MODULE_0__plugins_izitoast__["a" /* default */]);
-Vue.use(__webpack_require__(52));
+Vue.use(__webpack_require__(54));
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -22353,7 +22353,7 @@ Vue.use(__webpack_require__(52));
 
 
 
-Vue.component('example', __webpack_require__(64));
+Vue.component('example', __webpack_require__(66));
 
 var app = new Vue({
     el: '#wrapper',
@@ -22500,9 +22500,11 @@ __webpack_require__(36);
 window.swal = __webpack_require__(37);
 window.dt = __webpack_require__(38);
 __webpack_require__(40);
-//require("./printme.min")
 __webpack_require__(41);
 __webpack_require__(42);
+//require("./printme.min")
+__webpack_require__(43);
+__webpack_require__(44);
 
 /***/ }),
 /* 14 */
@@ -64233,6 +64235,380 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 /* 41 */
 /***/ (function(module, exports) {
 
+/*
+ * printThis v1.14.0
+ * @desc Printing plug-in for jQuery
+ * @author Jason Day
+ *
+ * Resources (based on):
+ * - jPrintArea: http://plugins.jquery.com/project/jPrintArea
+ * - jqPrint: https://github.com/permanenttourist/jquery.jqprint
+ * - Ben Nadal: http://www.bennadel.com/blog/1591-Ask-Ben-Print-Part-Of-A-Web-Page-With-jQuery.htm
+ *
+ * Licensed under the MIT licence:
+ *              http://www.opensource.org/licenses/mit-license.php
+ *
+ * (c) Jason Day 2015-2018
+ *
+ * Usage:
+ *
+ *  $("#mySelector").printThis({
+ *      debug: false,                   // show the iframe for debugging
+ *      importCSS: true,                // import parent page css
+ *      importStyle: false,             // import style tags
+ *      printContainer: true,           // grab outer container as well as the contents of the selector
+ *      loadCSS: "path/to/my.css",      // path to additional css file - use an array [] for multiple
+ *      pageTitle: "",                  // add title to print page
+ *      removeInline: false,            // remove all inline styles from print elements
+ *      removeInlineSelector: "body *", // custom selectors to filter inline styles. removeInline must be true
+ *      printDelay: 333,                // variable print delay
+ *      header: null,                   // prefix to html
+ *      footer: null,                   // postfix to html
+ *      base: false,                    // preserve the BASE tag, or accept a string for the URL
+ *      formValues: true,               // preserve input/form values
+ *      canvas: false,                  // copy canvas elements
+ *      doctypeString: '...',           // enter a different doctype for older markup
+ *      removeScripts: false,           // remove script tags from print content
+ *      copyTagClasses: false           // copy classes from the html & body tag
+ *      beforePrintEvent: null,         // callback function for printEvent in iframe
+ *      beforePrint: null,              // function called before iframe is filled
+ *      afterPrint: null                // function called before iframe is removed
+ *  });
+ *
+ * Notes:
+ *  - the loadCSS will load additional CSS (with or without @media print) into the iframe, adjusting layout
+ */
+;
+(function ($) {
+
+    function appendContent($el, content) {
+        if (!content) return;
+
+        // Simple test for a jQuery element
+        $el.append(content.jquery ? content.clone() : content);
+    }
+
+    function appendBody($body, $element, opt) {
+        // Clone for safety and convenience
+        // Calls clone(withDataAndEvents = true) to copy form values.
+        var $content = $element.clone(opt.formValues);
+
+        if (opt.formValues) {
+            // Copy original select and textarea values to their cloned counterpart
+            // Makes up for inability to clone select and textarea values with clone(true)
+            copyValues($element, $content, 'select, textarea');
+        }
+
+        if (opt.removeScripts) {
+            $content.find('script').remove();
+        }
+
+        if (opt.printContainer) {
+            // grab $.selector as container
+            $content.appendTo($body);
+        } else {
+            // otherwise just print interior elements of container
+            $content.each(function () {
+                $(this).children().appendTo($body);
+            });
+        }
+    }
+
+    // Copies values from origin to clone for passed in elementSelector
+    function copyValues(origin, clone, elementSelector) {
+        var $originalElements = origin.find(elementSelector);
+
+        clone.find(elementSelector).each(function (index, item) {
+            $(item).val($originalElements.eq(index).val());
+        });
+    }
+
+    var opt;
+    $.fn.printThis = function (options) {
+        opt = $.extend({}, $.fn.printThis.defaults, options);
+        var $element = this instanceof jQuery ? this : $(this);
+
+        var strFrameName = "printThis-" + new Date().getTime();
+
+        if (window.location.hostname !== document.domain && navigator.userAgent.match(/msie/i)) {
+            // Ugly IE hacks due to IE not inheriting document.domain from parent
+            // checks if document.domain is set by comparing the host name against document.domain
+            var iframeSrc = "javascript:document.write(\"<head><script>document.domain=\\\"" + document.domain + "\\\";</s" + "cript></head><body></body>\")";
+            var printI = document.createElement('iframe');
+            printI.name = "printIframe";
+            printI.id = strFrameName;
+            printI.className = "MSIE";
+            document.body.appendChild(printI);
+            printI.src = iframeSrc;
+        } else {
+            // other browsers inherit document.domain, and IE works if document.domain is not explicitly set
+            var $frame = $("<iframe id='" + strFrameName + "' name='printIframe' />");
+            $frame.appendTo("body");
+        }
+
+        var $iframe = $("#" + strFrameName);
+
+        // show frame if in debug mode
+        if (!opt.debug) $iframe.css({
+            position: "absolute",
+            width: "0px",
+            height: "0px",
+            left: "-600px",
+            top: "-600px"
+        });
+
+        // before print callback
+        if (typeof opt.beforePrint === "function") {
+            opt.beforePrint();
+        }
+
+        // $iframe.ready() and $iframe.load were inconsistent between browsers
+        setTimeout(function () {
+
+            // Add doctype to fix the style difference between printing and render
+            function setDocType($iframe, doctype) {
+                var win, doc;
+                win = $iframe.get(0);
+                win = win.contentWindow || win.contentDocument || win;
+                doc = win.document || win.contentDocument || win;
+                doc.open();
+                doc.write(doctype);
+                doc.close();
+            }
+
+            if (opt.doctypeString) {
+                setDocType($iframe, opt.doctypeString);
+            }
+
+            var $doc = $iframe.contents(),
+                $head = $doc.find("head"),
+                $body = $doc.find("body"),
+                $base = $('base'),
+                baseURL;
+
+            // add base tag to ensure elements use the parent domain
+            if (opt.base === true && $base.length > 0) {
+                // take the base tag from the original page
+                baseURL = $base.attr('href');
+            } else if (typeof opt.base === 'string') {
+                // An exact base string is provided
+                baseURL = opt.base;
+            } else {
+                // Use the page URL as the base
+                baseURL = document.location.protocol + '//' + document.location.host;
+            }
+
+            $head.append('<base href="' + baseURL + '">');
+
+            // import page stylesheets
+            if (opt.importCSS) $("link[rel=stylesheet]").each(function () {
+                var href = $(this).attr("href");
+                if (href) {
+                    var media = $(this).attr("media") || "all";
+                    $head.append("<link type='text/css' rel='stylesheet' href='" + href + "' media='" + media + "'>");
+                }
+            });
+
+            // import style tags
+            if (opt.importStyle) $("style").each(function () {
+                $head.append(this.outerHTML);
+            });
+
+            // add title of the page
+            if (opt.pageTitle) $head.append("<title>" + opt.pageTitle + "</title>");
+
+            // import additional stylesheet(s)
+            if (opt.loadCSS) {
+                if ($.isArray(opt.loadCSS)) {
+                    jQuery.each(opt.loadCSS, function (index, value) {
+                        $head.append("<link type='text/css' rel='stylesheet' href='" + this + "'>");
+                    });
+                } else {
+                    $head.append("<link type='text/css' rel='stylesheet' href='" + opt.loadCSS + "'>");
+                }
+            }
+
+            var pageHtml = $('html')[0];
+
+            // CSS VAR in html tag when dynamic apply e.g.  document.documentElement.style.setProperty("--foo", bar);
+            $doc.find('html').prop('style', pageHtml.style.cssText);
+
+            // copy 'root' tag classes
+            var tag = opt.copyTagClasses;
+            if (tag) {
+                tag = tag === true ? 'bh' : tag;
+                if (tag.indexOf('b') !== -1) {
+                    $body.addClass($('body')[0].className);
+                }
+                if (tag.indexOf('h') !== -1) {
+                    $doc.find('html').addClass(pageHtml.className);
+                }
+            }
+
+            // print header
+            appendContent($body, opt.header);
+
+            if (opt.canvas) {
+                // add canvas data-ids for easy access after cloning.
+                var canvasId = 0;
+                // .addBack('canvas') adds the top-level element if it is a canvas.
+                $element.find('canvas').addBack('canvas').each(function () {
+                    $(this).attr('data-printthis', canvasId++);
+                });
+            }
+
+            appendBody($body, $element, opt);
+
+            if (opt.canvas) {
+                // Re-draw new canvases by referencing the originals
+                $body.find('canvas').each(function () {
+                    var cid = $(this).data('printthis'),
+                        $src = $('[data-printthis="' + cid + '"]');
+
+                    this.getContext('2d').drawImage($src[0], 0, 0);
+
+                    // Remove the markup from the original
+                    $src.removeData('printthis');
+                });
+            }
+
+            // remove inline styles
+            if (opt.removeInline) {
+                // Ensure there is a selector, even if it's been mistakenly removed
+                var selector = opt.removeInlineSelector || '*';
+                // $.removeAttr available jQuery 1.7+
+                if ($.isFunction($.removeAttr)) {
+                    $body.find(selector).removeAttr("style");
+                } else {
+                    $body.find(selector).attr("style", "");
+                }
+            }
+
+            // print "footer"
+            appendContent($body, opt.footer);
+
+            // attach event handler function to beforePrint event
+            function attachOnBeforePrintEvent($iframe, beforePrintHandler) {
+                var win = $iframe.get(0);
+                win = win.contentWindow || win.contentDocument || win;
+
+                if (typeof beforePrintHandler === "function") {
+                    if ('matchMedia' in win) {
+                        win.matchMedia('print').addListener(function (mql) {
+                            if (mql.matches) beforePrintHandler();
+                        });
+                    } else {
+                        win.onbeforeprint = beforePrintHandler;
+                    }
+                }
+            }
+            attachOnBeforePrintEvent($iframe, opt.beforePrint);
+
+            setTimeout(function () {
+                if ($iframe.hasClass("MSIE")) {
+                    // check if the iframe was created with the ugly hack
+                    // and perform another ugly hack out of neccessity
+                    window.frames["printIframe"].focus();
+                    $head.append("<script>  window.print(); </s" + "cript>");
+                } else {
+                    // proper method
+                    if (document.queryCommandSupported("print")) {
+                        $iframe[0].contentWindow.document.execCommand("print", false, null);
+                    } else {
+                        $iframe[0].contentWindow.focus();
+                        $iframe[0].contentWindow.print();
+                    }
+                }
+
+                // remove iframe after print
+                if (!opt.debug) {
+                    setTimeout(function () {
+                        $iframe.remove();
+                    }, 1000);
+                }
+
+                // after print callback
+                if (typeof opt.afterPrint === "function") {
+                    opt.afterPrint();
+                }
+            }, opt.printDelay);
+        }, 333);
+    };
+
+    // defaults
+    $.fn.printThis.defaults = {
+        debug: false, // show the iframe for debugging
+        importCSS: true, // import parent page css
+        importStyle: false, // import style tags
+        printContainer: true, // print outer container/$.selector
+        loadCSS: "", // path to additional css file - use an array [] for multiple
+        pageTitle: "", // add title to print page
+        removeInline: false, // remove inline styles from print elements
+        removeInlineSelector: "*", // custom selectors to filter inline styles. removeInline must be true
+        printDelay: 333, // variable print delay
+        header: null, // prefix to html
+        footer: null, // postfix to html
+        base: false, // preserve the BASE tag or accept a string for the URL
+        formValues: true, // preserve input/form values
+        canvas: false, // copy canvas content
+        doctypeString: '<!DOCTYPE html>', // enter a different doctype for older markup
+        removeScripts: false, // remove script tags from print content
+        copyTagClasses: false, // copy classes from the html & body tag
+        beforePrintEvent: null, // callback function for printEvent in iframe
+        beforePrint: null, // function called before iframe is filled
+        afterPrint: null // function called before iframe is removed
+    };
+})(jQuery);
+
+/***/ }),
+/* 42 */
+/***/ (function(module, exports) {
+
+;(function ($) {
+    $.fn.printPreview = function (options) {
+        var elem = this;
+
+        var opt = $.extend({
+            obj2print: 'body',
+            style: '',
+            width: '670',
+            height: screen.height - 105,
+            top: 0,
+            left: 'center',
+            resizable: 'yes',
+            scrollbars: 'yes',
+            status: 'no',
+            title: 'Print Preview'
+        }, options);
+        if (opt.left == 'center') {
+            opt.left = screen.width / 2 - opt.width / 2;
+        }
+        $(opt.obj2print + " input").each(function () {
+            $(this).attr('value', $(this).val());
+        });
+        $(opt.obj2print + " textarea").each(function () {
+            $(this).html($(this).val());
+        });
+        return elem.bind("click.printPreview", function () {
+            var btnCode = elem[0].outerHTML;
+            var headString = '';
+            headString = $("head").html();
+            var str = "<!DOCTYPE html><html><head>" + headString + opt.style + "</head><body>";
+            str += $(opt.obj2print)[0].outerHTML.replace(btnCode, '') + "</body></html>";
+            //top open multiple instances we have to name newWindow differently, so getting milliseconds
+            var d = new Date();
+            var n = 'newWindow' + d.getMilliseconds();
+            var newWindow = window.open("", n, "width=" + opt.width + ",top=" + opt.top + ",height=" + opt.height + ",left=" + opt.left + ",resizable=" + opt.resizable + ",scrollbars=" + opt.scrollbars + ",status=" + opt.status);
+            newWindow.document.write(str);
+            newWindow.document.title = opt.title;
+        });
+    };
+})(jQuery);
+
+/***/ }),
+/* 43 */
+/***/ (function(module, exports) {
+
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -64466,7 +64842,7 @@ eval("module.exports = __webpack_require__(/*! ./src/index.js */\"./src/index.js
 /******/ });
 
 /***/ }),
-/* 42 */
+/* 44 */
 /***/ (function(module, exports) {
 
 /**
@@ -64485,6 +64861,11 @@ $(document).ready(function () {
         viewMode: "years",
         minViewMode: "years",
         autoclose: true
+    });
+
+    //print
+    $("#btn-print").printPreview({
+        obj2print: "#all_printable"
     });
 
     $("#form-add-grading").validate();
@@ -64552,7 +64933,7 @@ $(document).ready(function () {
 });
 
 /***/ }),
-/* 43 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var scope = (typeof global !== "undefined" && global) ||
@@ -64608,7 +64989,7 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(44);
+__webpack_require__(46);
 // On some exotic environments, it's not clear which object `setimmediate` was
 // able to install onto.  Search each possibility in the same order as the
 // `setimmediate` library.
@@ -64622,7 +65003,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 44 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -64815,16 +65196,16 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(5)))
 
 /***/ }),
-/* 45 */
+/* 47 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = install;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_izitoast__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_izitoast__ = __webpack_require__(48);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_izitoast___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_izitoast__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_izitoast_dist_css_iziToast_min_css__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_izitoast_dist_css_iziToast_min_css__ = __webpack_require__(49);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_izitoast_dist_css_iziToast_min_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_izitoast_dist_css_iziToast_min_css__);
 /**
  * Created by CHARLES on 11/03/2018.
@@ -64856,7 +65237,7 @@ function install() {
 }
 
 /***/ }),
-/* 46 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -66157,13 +66538,13 @@ function install() {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 47 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(48);
+var content = __webpack_require__(50);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -66171,7 +66552,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(50)(content, options);
+var update = __webpack_require__(52)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -66188,10 +66569,10 @@ if(false) {
 }
 
 /***/ }),
-/* 48 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(49)(false);
+exports = module.exports = __webpack_require__(51)(false);
 // imports
 
 
@@ -66202,7 +66583,7 @@ exports.push([module.i, "/*\r\n* iziToast | v1.4.0\r\n* http://izitoast.marcelod
 
 
 /***/ }),
-/* 49 */
+/* 51 */
 /***/ (function(module, exports) {
 
 /*
@@ -66284,7 +66665,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 50 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -66330,7 +66711,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(51);
+var	fixUrls = __webpack_require__(53);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -66643,7 +67024,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 51 */
+/* 53 */
 /***/ (function(module, exports) {
 
 
@@ -66738,7 +67119,7 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 52 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {(function (global, factory) {
@@ -71449,7 +71830,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 53 */
+/* 55 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -71555,7 +71936,7 @@ var clazz = {
 /* harmony default export */ __webpack_exports__["a"] = (clazz);
 
 /***/ }),
-/* 54 */
+/* 56 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -71730,7 +72111,7 @@ var subject = {
 /* harmony default export */ __webpack_exports__["a"] = (subject);
 
 /***/ }),
-/* 55 */
+/* 57 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -71808,7 +72189,7 @@ var term = {
 /* harmony default export */ __webpack_exports__["a"] = (term);
 
 /***/ }),
-/* 56 */
+/* 58 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -71941,7 +72322,7 @@ var grade = {
 /* harmony default export */ __webpack_exports__["a"] = (grade);
 
 /***/ }),
-/* 57 */
+/* 59 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -72106,7 +72487,7 @@ var student = {
 /* harmony default export */ __webpack_exports__["a"] = (student);
 
 /***/ }),
-/* 58 */
+/* 60 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -72161,7 +72542,7 @@ var importStudents = {
 /* harmony default export */ __webpack_exports__["a"] = (importStudents);
 
 /***/ }),
-/* 59 */
+/* 61 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -72202,7 +72583,7 @@ var exam = {
 /* harmony default export */ __webpack_exports__["a"] = (exam);
 
 /***/ }),
-/* 60 */
+/* 62 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -72390,7 +72771,7 @@ var marks = {
 /* harmony default export */ __webpack_exports__["a"] = (marks);
 
 /***/ }),
-/* 61 */
+/* 63 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -72461,7 +72842,7 @@ var results = {
 /* harmony default export */ __webpack_exports__["a"] = (results);
 
 /***/ }),
-/* 62 */
+/* 64 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -72474,7 +72855,47 @@ var printer = {
 
     methods: {
         printTest: function printTest(id) {
-            printJS(id, 'html');
+
+            var screen_width = $(window).width();
+            var screen_height = $(window).height();
+            var w_cm = screen_width * 0.0264583333;
+            var h_cm = screen_height * 0.0264583333;
+
+            var dip = screen_width * 2.54 / w_cm;
+
+            var r_dip = Math.round(dip);
+
+            var dips = [72, 96, 150, 300];
+            var closest = dips.reduce(function (prev, curr) {
+                return Math.abs(curr - r_dip) < Math.abs(prev - r_dip) ? curr : prev;
+            });
+
+            var available_dips = {
+                "72": "595 x 842",
+                "96": "794 x 1123",
+                "150": "1240 x 1754",
+                "300": "2480 x 3508"
+            };
+
+            var usable_measures = available_dips[closest].split("x");
+            console.log("width: " + usable_measures[0], "height: " + usable_measures[1]);
+
+            //    $.each(available_dips,function(index, item) {
+            //         console.log(index, item)
+            //     })
+
+
+            //$("#"+id).width(usable_measures[0]).height(usable_measures[1])
+            $("#" + id).css({
+                'width': '' + usable_measures[1] + 'px',
+                'height': '' + usable_measures[1] + 'px',
+                'color': 'red'
+            });
+            $("#" + id).printThis({
+                debug: false
+            });
+
+            //printJS(id, 'html')
             //$("#"+id).printMe({ "path": [base_url+"/public/app.css"] });
         }
     }
@@ -72484,7 +72905,7 @@ var printer = {
 /* harmony default export */ __webpack_exports__["a"] = (printer);
 
 /***/ }),
-/* 63 */
+/* 65 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -72617,15 +73038,15 @@ var resultConfig = {
 /* harmony default export */ __webpack_exports__["a"] = (resultConfig);
 
 /***/ }),
-/* 64 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(65)
+var normalizeComponent = __webpack_require__(67)
 /* script */
-var __vue_script__ = __webpack_require__(66)
+var __vue_script__ = __webpack_require__(68)
 /* template */
-var __vue_template__ = __webpack_require__(67)
+var __vue_template__ = __webpack_require__(69)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -72664,7 +73085,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 65 */
+/* 67 */
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -72773,7 +73194,7 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 66 */
+/* 68 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -72802,7 +73223,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 67 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -72845,7 +73266,7 @@ if (false) {
 }
 
 /***/ }),
-/* 68 */
+/* 70 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

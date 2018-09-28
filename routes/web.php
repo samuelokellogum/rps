@@ -100,6 +100,9 @@ Route::get("results", "ResultsController@index")->name("results");
 Route::get("onMarksUpdate", "ResultsController@onMarksUpdate")->name("onMarksUpdate");
 Route::post("updateMark", "ResultsController@updateMark")->name("updateMark");
 
+//reports
+Route::get("studentReport", "ReportController@studentReport")->name("studentReport");
+
 
 
 

@@ -255,6 +255,25 @@ input[type="radio"]:disabled + .label-text:before {
 }
 
 @media print {
+  .page-break {
+    display: block;
+    page-break-before: always;
+  }
+
+  a[href]:after {
+    content: none !important;
+  }
+
+@page {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+  .printThis {
+    padding-top: 15px;
+    padding-bottom: 10px;
+  }
+
   table {
     page-break-after: auto;
   }

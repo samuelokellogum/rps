@@ -16,6 +16,11 @@ $(document).ready(function(){
         autoclose: true,
     });
 
+    //print
+    $("#btn-print").printPreview({
+        obj2print: "#all_printable"
+    });
+
 
 
     $("#form-add-grading").validate()

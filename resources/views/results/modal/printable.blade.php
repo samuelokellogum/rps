@@ -8,7 +8,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title"></h4>
             </div>
-            <div id="print-results" class="modal-body row">
+            <div id="print-results" class="modal-body row printThis">
 
                 <?php
                   $the_term = \App\Term::find($selected_term);
@@ -80,10 +80,6 @@
                                 {{ $count++ }}
                             </td>
                             <td>
-                                <span>{{ $student->name }}</span><br>
-                                <span>{{ $student->name }}</span><br>
-                                <span>{{ $student->name }}</span><br>
-                                <span>{{ $student->name }}</span><br>
                                 <span>{{ $student->name }}</span><br>
                             </td>
 

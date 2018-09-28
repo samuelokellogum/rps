@@ -24,7 +24,7 @@ trait ImportHandler{
             // Getting all results
             $results = $reader->get();
 
-            dd(self::processData($results->toArray(), self::$import_file));
+            self::processData($results->toArray(), self::$import_file);
 
 
         });
