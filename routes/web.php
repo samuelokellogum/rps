@@ -86,6 +86,7 @@ Route::get("getSubjectPatsForClass", "ReportConfigController@getSubjectPatsForCl
 Route::get("addPartsToClass", "ReportConfigController@addPartsToClass")->name("addPartsToClass");
 Route::get("getAdGrade", "ReportConfigController@getAdGrade")->name("getAdGrade");
 Route::get("addReportConfig", "ReportConfigController@addReportConfig")->name("addReportConfig");
+Route::get("getReportConfig", "ReportConfigController@getReportConfig")->name("getReportConfig");
 Route::post("addAdvancedGrade", "ReportConfigController@addAdvancedGrade")->name("addAdvancedGrade");
 
 //marks
@@ -102,6 +103,8 @@ Route::post("updateMark", "ResultsController@updateMark")->name("updateMark");
 
 //reports
 Route::get("studentReport", "ReportController@studentReport")->name("studentReport");
+Route::get("reportCards", "ReportController@index")->name("reportCards");
+Route::get("generateReports", "ReportController@generateReports")->name("generateReports");
 
 
 
@@ -112,10 +115,15 @@ Route::get("studentReport", "ReportController@studentReport")->name("studentRepo
 
 
 Route::get("test/{val}", function(Request $req){
-  $max = 2.5;
-  $min = 1;
+  $student_report_card = \App\Student::find($req->val)->reportCards;
 
-  $ts = Util::in_range($req->val, $min, $max);
-  dd($ts);
-  
+  $full_report = $student_report_card[0]->full_report;
+
+  $results = $full_report->results;
+  dump(collect($results)->first()->result);
+
+  foreach($results as $key => $val){
+    dump($key);
+    dump($val);
+  }
 });

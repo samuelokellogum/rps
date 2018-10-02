@@ -19,7 +19,7 @@
                         <img src="{{ asset('img/member.jpg') }}" style="width: 100px; height: 120px">
                     </td>
                      <td>
-                        <h6>Name: Sayrunjah Pauuz</h6>
+                        <h6>Name: {{ $student->name }}</h6>
                         <h6>Class: Form 1 North</h6>
                      </td>
                 </tr>
@@ -32,17 +32,28 @@
             <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <td>Subject</td>
-                        <td colspan="3">Marks</td>
+                        <th style="width: 20%"></th>
+                        @foreach (collect($results->full_report->results)->first()->result as $key => $result)
+                           <th style="width: 5%">{{ $key }}</th>
+                        @endforeach
+                        <th style="width: 3%">Final</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @for($i = 1; $i <= 25; $i++)
+                    @foreach ($results->full_report->results as $key => $result)
                         <tr>
-                            <td>Math</td>
-                            <td>{{ mt_rand(60,90) }}</td>
-                        </tr>
-                    @endfor
+                            <td>{{ $key}}</td>
+                            @foreach ($result->result as $k => $v)
+                                <td>
+                                @foreach ($v as $fv)
+                                    {{ $fv->mark }}
+                                @endforeach
+                                </td>
+                            @endforeach
+
+                            <td> {{ $result->final_result->all_average->total }} |  {{ $result->final_result->all_average->symbol }}</td>
+                        <tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

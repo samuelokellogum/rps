@@ -161,6 +161,32 @@
                     </li>
                 @endif
 
+                @if($classes->count() > 0)
+                    <li>
+                        <a href="#">Report Cards <span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            @foreach($classes as $class)
+                                <?php
+                                $streams = $class->streams;
+                                $count_streams = $streams->count();
+                                ?>
+                                <li>
+                                    <a href="{{ ($count_streams > 0) ? '#' : route("reportCards", ["by" => "class", "id" => $class->id]) }}">{{ $class->name }} @if($count_streams > 0 ) <span class="fa arrow"></span> @endif</a>
+                                    @if($count_streams > 0)
+                                        <ul class="nav nav-third-level">
+                                            @foreach($class->streams as $stream)
+                                                <li>
+                                                    <a href="{{ route("reportCards",["by" => "stream", "id" => $stream->id]) }}">{{ $stream->name }}</a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @endif
+                                </li>
+                            @endforeach
+                        </ul>
+                    </li>
+                @endif
+
             </ul>
         </div>
         <!-- /.sidebar-collapse -->

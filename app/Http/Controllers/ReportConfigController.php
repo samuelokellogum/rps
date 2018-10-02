@@ -87,11 +87,18 @@ class ReportConfigController extends Controller
 
     public function addReportConfig(Request $request){
 
-     
+        $data = $request->all();
+        $data["exam_sets"] = json_encode($request->exam_sets);
+
+
        $config =  ReportConfig::updateOrCreate([
             "clazz_id" => $request->clazz_id
-        ],$request->all());
+        ],$data);
 
         return response()->json($config);
+    }
+
+    public function getReportConfig(Request $request){
+        return response()->json(ReportConfig::where("clazz_id", $request->clazz_id)->first());
     }
 }

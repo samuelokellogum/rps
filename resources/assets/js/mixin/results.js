@@ -60,6 +60,16 @@ const results = {
         },
         showPrintable(){
             $("#modal-printable-results").modal("show")
+        },
+
+        generateReports(){
+            $.ajax({
+                url: base_url +"/generateReports",
+                data: $("#form-gen-reports").serialize(),
+                success(data){
+                    console.log(data)
+                }
+            });
         }
     }
 

@@ -29,4 +29,8 @@ class Clazz extends Model
     public function patsForSubject($subject_id){
         return $this->subPats()->where("subject_id", $subject_id)->get();
     }
+
+    public function reportConfig(){
+        return $this->hasOne(ReportConfig::class);
+    }
 }

@@ -33,4 +33,8 @@ class Student extends Model
     public function clazz(){
         return $this->belongsToMany(Clazz::class, "clazz_students" ,"student_id", "clazz_id")->first();
     }
+
+    public function reportCards(){
+        return $this->hasMany(StudentReport::class);
+    }
 }

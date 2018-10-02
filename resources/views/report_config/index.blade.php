@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
-    <div id="score-config
-    " class="row">
+    <div id="score-config" class="row">
         
+        <input hidden id="clazz_id" value="{{ $clazz->id }}">
         <div class="col-md-4">
             <h5>Subjects</h5>
 
@@ -57,6 +57,16 @@
                                     </label>
                                 </td>
                             </tr>
+                            <tr class="exam_sets">
+                                <td>Exam Set on final report</td>
+                                <td>
+                                    @foreach (\App\ExamSet::all() as $examSet)
+                                    <label style="margin-left: 30px" class="cr-label">
+                                        <input :checked="rc_data.exam_sets && rc_data.exam_sets.includes('{{$examSet->id}}')" type="checkbox" class="examSet"  value="{{ $examSet->id }}"> <span class="label-text">{{ $examSet->short_name }}</span>
+                                    </label>
+                                    @endforeach
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
 
@@ -69,19 +79,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <tr>
+                        <tr class="score_by">
                             <td>Sum Subject Marks: </td>
                             <td>
                                 <label class="cr-label">
-                                    <input type="radio" name="score_by"  value="subject" checked> <span class="label-text"></span>
+                                    <input type="radio" name="score_by"  value="subject" :checked="rc_data.score_by && rc_data.score_by == 'subject'"> <span class="label-text"></span>
                                 </label>
                             </td>
                         </tr>
-                        <tr>
+                        <tr class="score_by">
                             <td>Total per paper: </td>
                             <td>
                                 <label class="cr-label">
-                                    <input type="radio" name="score_by"  value="per_paper"> <span class="label-text"></span>
+                                    <input type="radio" name="score_by"  value="per_paper" :checked="rc_data.score_by && rc_data.score_by == 'per_paper'"> <span class="label-text"></span>
                                 </label>
                             </td>
                         </tr>
@@ -99,19 +109,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <tr>
+                        <tr class="position_by">
                             <td>Average mark: </td>
                             <td>
                                 <label class="cr-label">
-                                    <input type="radio" name="position_by"  value="marks" checked> <span class="label-text"></span>
+                                    <input type="radio" name="position_by"  value="marks" :checked="rc_data.position_by && rc_data.position_by == 'marks'"> <span class="label-text"></span>
                                 </label>
                             </td>
                         </tr>
-                        <tr>
+                        <tr class="position_by">
                             <td>Points score: </td>
                             <td>
                                 <label class="cr-label">
-                                    <input type="radio" name="position_by"  value="points"> <span class="label-text"></span>
+                                    <input type="radio" name="position_by"  value="points" :checked="rc_data.position_by && rc_data.position_by == 'points'"> <span class="label-text"></span>
                                 </label>
 
                                 <select id="points_by" name="points_by">

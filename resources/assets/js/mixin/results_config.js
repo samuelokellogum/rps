@@ -1,6 +1,19 @@
 const resultConfig = {
 
-    mounted() {},
+    mounted() {
+        var app = this
+        if($("#score-config").length > 0){
+            $.ajax({
+                url: base_url + "/getReportConfig",
+                data:{
+                    clazz_id: $("#clazz_id").val()
+                },
+                success(data){
+                    app.rc_data = data
+                }
+            })
+        }
+    },
     data() {
         return {
             rc_subject_data: {},
@@ -9,7 +22,8 @@ const resultConfig = {
             rc_subject_pats: [],
             rc_adva_grades: {},
             rc_this_adva_grade: {},
-
+            rc_data: {},
+            hasError: false
         }
     },
     methods: {
@@ -102,6 +116,14 @@ const resultConfig = {
             var pointsBy = $("#points_by").val();
             var grading = $("#grading").val()
             var advanced_grade = $("input[name='allow_advanced_grading']:checked").val()
+            var examSet = [];
+
+            $(".examSet").each(function(index, item){
+                if($(this).is(":checked")){
+                    examSet.push($(this).val())
+                }
+               
+            })
 
             var obj = {
                 "score_by" : scoreBy,
@@ -109,14 +131,40 @@ const resultConfig = {
                 "points_by" : pointsBy,
                 "grading_id" : grading,
                 "clazz_id" : clazz_id,
-                "advanced_grading": advanced_grade
+                "advanced_grading": advanced_grade,
+                "exam_sets" : examSet
             };
+
+        
+            $.each(obj, function(index, item){
+                if(index != "advanced_grading" && item == null){
+                    app.hasError = true
+                    $("."+index).css('background-color', 'red');
+                    return;
+                }
+
+                if(index == "exam_sets" && item.length <= 0){
+                    app.hasError = true
+                    $("." + index).css('background-color', 'red');
+                    return;
+                }
+            });
+
+            console.log(app.hasError, obj)
+            if(app.hasError){
+                swal('Error','Missing Cofigurations','error');
+                app.hasError = false
+                return;
+            }
+
+        
+
 
             $.ajax({
                 url: base_url +'/addReportConfig',
                 data: obj,
-                success(data){
-                    console.log(data)
+                success(data){9
+                    app.rc_data = data;
                     app.$iziToast.success({
                         position: 'topCenter',
                         message: "Configurations done",
@@ -125,6 +173,22 @@ const resultConfig = {
             })
 
 
+        },
+        clearErrors(){
+            var obj = {
+                "score_by": "scoreBy",
+                "position_by": "positionBy",
+                "points_by": "pointsBy",
+                "grading_id": "grading",
+                "clazz_id": "clazz_id",
+                "advanced_grading": "advanced_grade",
+                "exam_sets": "examSet"
+            };
+
+
+            $.each(obj, function (index, item) {
+                $("." + index).css('background-color', 'white');
+            });
         }
     }
 
