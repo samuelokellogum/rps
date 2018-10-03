@@ -34,6 +34,7 @@ class ReportController extends Controller
     public function studentReport(Request $request){
         $student = Student::find($request->student_id);
         $results = $student->reportCards[0];
+    
         return view("report.templates.report_2", compact('student', 'results'));
     }
 }

@@ -21,6 +21,8 @@
                      <td>
                         <h6>Name: {{ $student->name }}</h6>
                         <h6>Class: Form 1 North</h6>
+                        <h6>Position: {{ $results->full_report->position }}</h6>
+                        <h6>Points: {{ $results->full_report->all_avg->points }}</h6>
                      </td>
                 </tr>
             </tbody>
@@ -36,7 +38,7 @@
                         @foreach (collect($results->full_report->results)->first()->result as $key => $result)
                            <th style="width: 5%">{{ $key }}</th>
                         @endforeach
-                        <th style="width: 3%">Final</th>
+                        <th style="min-width: 10%">Final</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,7 +53,7 @@
                                 </td>
                             @endforeach
 
-                            <td> {{ $result->final_result->all_average->total }} |  {{ $result->final_result->all_average->symbol }}</td>
+                            <td> {{ $result->final_result->all_average->total }} |  {{ $result->final_result->all_average->symbol }} | {{ $result->final_result->all_average->comment }}</td>
                         <tr>
                     @endforeach
                 </tbody>

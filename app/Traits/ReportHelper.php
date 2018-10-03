@@ -162,7 +162,8 @@ trait ReportHelper
         $final_res_data["all_average"] = array(
             "total" => $total,
             "points" => $final_grade_mark->consist_of,
-            "symbol" => $final_grade_mark->symbol
+            "symbol" => $final_grade_mark->symbol,
+            "comment" => $final_grade_mark->comment
         );
         return (object)[ "all_data" => $data, "final_results" => $final_res_data];
     }

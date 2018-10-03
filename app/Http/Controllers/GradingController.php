@@ -43,7 +43,7 @@ class GradingController extends Controller
         }
 
         foreach ($details->pluck("mark_end", "mark_start") as $key => $val){
-            if(Util::in_range($mark_start_, $val, $key)){
+            if(Util::in_range($mark_start_, $val, $key) && (!isset($request->id))){
 
                 return response()->json(["type" => "fail", "message" => "Marks defined already in range {$key} - {$val}"]);
             }
@@ -56,7 +56,8 @@ class GradingController extends Controller
             "mark_start" => $mark_start_,
             "mark_end" => $mark_end_,
             "symbol" => $request->symbol,
-            "consist_of" => $request->consist_of
+            "consist_of" => $request->consist_of,
+            "comment" => $request->comment
         ]);
 
         return response()->json(Grading::with("details")->get());

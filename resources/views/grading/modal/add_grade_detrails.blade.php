@@ -36,6 +36,10 @@
                             <input name="consist_of" :value="grade_details_data.consist_of"  placeholder="Points e.g 1,2,5,6...." class="form-control"  type="number" required>
                         </div>
 
+                        <div class="col-md-12">
+                            <input name="comment" :value="grade_details_data.comment"  placeholder="Comment e.g Very good, poor, excellent ...." class="form-control"  type="text">
+                        </div>
+
 
                         <div class="col-md-12">
                             <button @click="clearForm" style="margin-left: 20px" type="button" class="btn btn-danger pull-right">Clear</button>
