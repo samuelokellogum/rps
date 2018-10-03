@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class ClazzSubject extends Model
 {
         protected $fillable = [
-            "clazz_id", "subject_id"
+            "clazz_id", "subject_id", "clazz_stream_id"
         ];
 }

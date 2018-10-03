@@ -26,7 +26,7 @@ class ResultsController extends Controller
         $stream = ($request->by == "stream") ? ClazzStream::find($request->id) : null ;
 
 
-        $subjects = $class->subjects;
+        $subjects = ($request->by == "class") ? $class->subjects : $stream->subjects;
 
         $terms = Term::all();
         $exam_sets = ExamSet::all();

@@ -60,7 +60,7 @@ class SubjectController extends Controller
 
     public function loadAllClassWithSubjects(Request $request){
         $data = [
-            "class_with_subjects" => Clazz::with("subjects")->get(),
+            "class_with_subjects" => Clazz::with("subjects", "streams.subjects")->get(),
             "subjects" => Subject::all()
         ];
         return response()->json($data);
@@ -69,21 +69,29 @@ class SubjectController extends Controller
     public function addClassSubject(Request $request){
 
         $data = $request->subjects;
+        $clazz_stream_id = $request->clazz_stream_id;
 
-        ClazzSubject::where("clazz_id", $request->clazz_id)->delete();
+        if(isset($clazz_stream_id)){
+            ClazzSubject::where("clazz_stream_id", $request->clazz_stream_id)->delete();
 
+        }else{
+            ClazzSubject::where("clazz_id", $request->clazz_id)->delete();
+
+        }
+        
         if(count($data) > 0){
             foreach ($data as $row){
                 ClazzSubject::create([
                     "clazz_id" => $request->clazz_id,
-                    "subject_id" => $row
+                    "subject_id" => $row,
+                    "clazz_stream_id" => $clazz_stream_id
                 ]);
             }
         }
 
 
         $data = [
-            "class_with_subjects" => Clazz::with("subjects")->get(),
+            "class_with_subjects" => Clazz::with("subjects", "streams.subjects")->get(),
             "subjects" => Subject::all()
         ];
         return response()->json($data);

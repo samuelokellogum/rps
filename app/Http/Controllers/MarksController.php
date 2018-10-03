@@ -33,7 +33,7 @@ class MarksController extends Controller
         $students = ($request->by == "class") ? Clazz::find($request->id)->students()->orderBy("name", "asc")->get()
             : ClazzStream::find($request->id)->students()->orderBy("name", "asc")->get();
         $stream = ($request->by == "stream") ? ClazzStream::find($request->id) : null ;
-        $subjects = $class->subjects()->with("particulars")->get();
+        $subjects = ($request->by == "class") ? $class->subjects()->with("particulars")->get() : $stream->subjects()->with("particulars")->get();
         $exam_set = ExamSet::all();
         $terms = Term::all();
 

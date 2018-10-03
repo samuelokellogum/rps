@@ -17,7 +17,12 @@
                     <tr v-for="(clazz, index) in class_with_subjects">
                         <td>@{{ index+1 }}</td>
                         <td>@{{ clazz.name }}</td>
-                        <td>@{{ clazz.subjects.length }} <a style="margin-left: 25px" href="#" @click.prevent.stop="showSubjectList(clazz.id, index)">Add/Remove Subject</a></td>
+                        <td v-if="clazz.streams.length > 0">
+                            <div v-for="(stream, index2) in  clazz.streams" style="margin-bottom: 10px">
+                                @{{ stream.name }} @{{ stream.subjects.length }} <a style="margin-left: 25px" href="#" @click.prevent.stop="showSubjectList(clazz.id, index, stream.id, index2)">Add/Remove Subject</a>
+                            </div>
+                        </td>
+                        <td v-else>@{{ clazz.subjects.length }} <a style="margin-left: 25px" href="#" @click.prevent.stop="showSubjectList(clazz.id, index)">Add/Remove Subject</a></td>
                     </tr>
                 </tbody>
 

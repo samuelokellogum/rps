@@ -115,7 +115,6 @@ Route::get("generateReports", "ReportController@generateReports")->name("generat
 
 
 Route::get("test", function(Request $req){
-  //dd(\App\Clazz::find(1)->reportConfig);
-  $data = ReportHelper::genResults(2,"clazz", 1);
+  $data = \App\Clazz::with("subjects", "streams.subjects")->get();
   dd($data);
 });

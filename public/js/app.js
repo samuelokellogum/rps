@@ -71979,7 +71979,8 @@ var subject = {
             subjects_list: {},
             class_subjects: {},
             class_subjects_array: [],
-            class_sub_id: ""
+            class_sub_id: "",
+            class_stream_id: ""
 
         };
     },
@@ -72069,11 +72070,18 @@ var subject = {
             this.subject_pat_data = {};
             this.subject_pat_data.subject_id = subject_id;
         },
-        showSubjectList: function showSubjectList(id, index) {
+        showSubjectList: function showSubjectList(id, index, stream_id, index2) {
             var app = this;
             app.class_subjects_array = [];
             this.class_sub_id = id;
-            app.class_subjects = this.class_with_subjects[index].subjects;
+
+            if (stream_id == null) {
+                app.class_stream_id = "";
+                app.class_subjects = this.class_with_subjects[index].subjects;
+            } else {
+                app.class_stream_id = stream_id;
+                app.class_subjects = this.class_with_subjects[index].streams[index2].subjects;
+            }
 
             app.class_subjects.forEach(function (obj) {
                 app.class_subjects_array.push(obj.id);
@@ -72094,9 +72102,11 @@ var subject = {
                 url: base_url + "/addClassSubject",
                 data: {
                     subjects: subjects,
-                    clazz_id: app.class_sub_id
+                    clazz_id: app.class_sub_id,
+                    clazz_stream_id: app.class_stream_id
                 },
                 success: function success(data) {
+
                     app.subjects_list = data.subjects;
                     app.updateDataTable(app.class_with_subjects = data.class_with_subjects);
                     $("#modal-list-subjects").modal("hide");

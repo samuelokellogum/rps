@@ -13,9 +13,16 @@ trait ReportHelper
         $genResultsFor = ($by == "clazz") ? Clazz::find($clazz_id) : ClazzStream::find($clazz_id);
         $clazz = ($by == "clazz") ? Clazz::find($clazz_id) : ClazzStream::find($clazz_id)->clazz;
         $reportConfig = ($by == "clazz") ? $genResultsFor->reportConfig : $genResultsFor->clazz->reportConfig;
-        $subjects = ($by == "clazz") ? $genResultsFor->subjects : $genResultsFor->clazz->subjects;
+        $subjects = $genResultsFor->subjects;
         $students = $genResultsFor->students;
         $exam_sets = json_decode($reportConfig->exam_sets);
+
+        if($reportConfig->advanced_grading == 'yes'){
+            $class_adg = $clazz->advancedGrade;
+            if($class_adg->count() <= 0){
+                return 'error';
+            }
+        }
 
         foreach($students as $student){
 
@@ -236,6 +243,10 @@ trait ReportHelper
 
         //by can be class or stream id
         $data = ReportHelper::genResults($clazz_id, $by, $term);
+
+        if($data == 'error'){
+            return $data;
+        }
 
         $score_by = $data->report_config->score_by;
         $position_by = $data->report_config->position_by;
