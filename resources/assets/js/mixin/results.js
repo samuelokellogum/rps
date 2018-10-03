@@ -1,3 +1,5 @@
+import swal from "sweetalert2";
+
 const results = {
 
     mounted(){},
@@ -10,13 +12,19 @@ const results = {
     },
     methods:{
          showStudentMarks(id){
-             var app = this
+             var app =this
+             if (!app.isNumber($("input[name=selected_exam]").val())) {
+                return;
+             }
              $.ajax({
                  url: base_url+"/onMarksUpdate",
                  data:{
-                     id: id
+                     id: id,
+                     exam: $("input[name=selected_exam]").val(),
+                     term: $("input[name=selected_term]").val(),
                  },
                  success(data){
+                     
                     app.results_marks = data
                      $("#modal-student-marks").modal("show")
                  }

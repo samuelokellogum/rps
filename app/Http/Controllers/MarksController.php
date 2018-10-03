@@ -8,6 +8,7 @@ use App\ExamSet;
 use App\Mark;
 use App\MarkLog;
 use App\Subject;
+use App\SubjectParticular;
 use App\Term;
 use Illuminate\Http\Request;
 
@@ -74,7 +75,8 @@ class MarksController extends Controller
                     ->where("clazz_id", $class["id"])->where("subject_id", $subject["id"])->where("subject_sub_id", $pat)
                 ->where("clazz_stream_id", $stream_id)->first();
                 if($markLog != null){
-                    return response()->json(["type" => "error", "message" => "{$subject['name']} marks for {$exam['short_name']}  {$term['name']} already recorded"]);
+                    $particular = SubjectParticular::find($pat);
+                    return response()->json(["type" => "error", "message" => "{$subject['name']} {$particular->name} marks for {$exam['short_name']}  {$term['name']} already recorded. Go to results to edit them"]);
                 }else{
                     MarkLog::create([
                         "exam_set_id" => $exam["id"],

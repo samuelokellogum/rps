@@ -53,7 +53,7 @@
                                 <td>
                                     <button @click="showAdvancedGrading('{{ $clazz->id }}')" class="btn btn-default btn-sm">ADVANCED GRADING</button>
                                      <label style="margin-left: 30px" class="cr-label">
-                                        <input type="checkbox" name="allow_advanced_grading"  value="yes"> <span class="label-text"></span>
+                                        <input type="checkbox" name="allow_advanced_grading"  value="yes" :checked="rc_data.advanced_grading == 'yes'"> <span class="label-text"></span>
                                     </label>
                                 </td>
                             </tr>

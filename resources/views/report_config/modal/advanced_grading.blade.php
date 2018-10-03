@@ -34,6 +34,10 @@
                             </div>
                         </div>
 
+                        <div class="col-md-12">
+                        <input name="comment" :value="rc_this_adva_grade.comment"   placeholder="comment e.g pass, fail" class="form-control" type="text">
+                    </div>
+
         
 
                 </form>

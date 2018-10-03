@@ -78,7 +78,8 @@ class ReportConfigController extends Controller
             "clazz_id" => $request->clazz_id,
             "range_1" => $request->range_1,
             "range_2" => $request->range_2,
-            "consist_of" => $request->consist_of
+            "consist_of" => $request->consist_of,
+            "comment" => $request->comment
         ]);
 
         $ad_grade = AdvancedGrading::where("clazz_id", $request->clazz_id)->orderBy("consist_of", "desc")->get();
@@ -89,6 +90,8 @@ class ReportConfigController extends Controller
 
         $data = $request->all();
         $data["exam_sets"] = json_encode($request->exam_sets);
+        $data["advanced_grading"] = isset($request->advanced_grading) ? $request->advanced_grading : "no";
+
 
 
        $config =  ReportConfig::updateOrCreate([

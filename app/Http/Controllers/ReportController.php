@@ -13,8 +13,8 @@ class ReportController extends Controller
 {
 
     public function index(Request $request){
-        $clazz = ($request->by == "class") ? Clazz::find($request->id) : ClazzStream::find($request->id)->clazz;
-        $students = ($request->by == "class") ? Clazz::find($request->id)->students()->orderBy("name", "asc")->get()
+        $clazz = ($request->by == "clazz") ? Clazz::find($request->id) : ClazzStream::find($request->id)->clazz;
+        $students = ($request->by == "clazz") ? Clazz::find($request->id)->students()->orderBy("name", "asc")->get()
             : ClazzStream::find($request->id)->students()->orderBy("name", "asc")->get();
 
         $terms = Term::all();
@@ -26,7 +26,8 @@ class ReportController extends Controller
 
     public function generateReports(Request $request){
        
-        ReportHelper::determingPosition($request->id, $request->by, $request->term);
+        $data = ReportHelper::determingPosition($request->id, $request->by, $request->term);
+        return response()->json($data);
         return response()->json($request->all());
        
     }

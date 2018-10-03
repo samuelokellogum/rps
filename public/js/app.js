@@ -22432,6 +22432,9 @@ var app = new Vue({
                     //window.location.reload(true)
                 }
             });
+        },
+        isNumber: function isNumber(n) {
+            return !isNaN(parseFloat(n)) && isFinite(n);
         }
     }
 });
@@ -72637,6 +72640,16 @@ var marks = {
     },
 
     methods: {
+        onMarksInput: function onMarksInput(e, id) {
+            var app = this;
+            var value = e.target.value;
+            var old_value = value.substring(0, value.length - 1);
+            var new_char = value.slice(-1);
+
+            if (!app.isNumber(new_char) || parseInt(value) > 100) {
+                $("#" + id).val(old_value);
+            }
+        },
         onMarkSubjectChange: function onMarkSubjectChange(e) {
             var app = this;
             app.selected_pats = [];
@@ -72656,11 +72669,6 @@ var marks = {
                 },
                 success: function success(data) {
                     allowedPats = data;
-
-                    // app.marks_sub_pats.forEach(function (obj) {
-                    //      app.selected_pats.push(obj.id)
-                    //  })
-
                     app.selected_pats = allowedPats;
                 }
             });
@@ -72775,6 +72783,10 @@ var marks = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_sweetalert2__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_sweetalert2__);
+
+
 var results = {
     mounted: function mounted() {},
     data: function data() {
@@ -72788,12 +72800,18 @@ var results = {
     methods: {
         showStudentMarks: function showStudentMarks(id) {
             var app = this;
+            if (!app.isNumber($("input[name=selected_exam]").val())) {
+                return;
+            }
             $.ajax({
                 url: base_url + "/onMarksUpdate",
                 data: {
-                    id: id
+                    id: id,
+                    exam: $("input[name=selected_exam]").val(),
+                    term: $("input[name=selected_term]").val()
                 },
                 success: function success(data) {
+
                     app.results_marks = data;
                     $("#modal-student-marks").modal("show");
                 }

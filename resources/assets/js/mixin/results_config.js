@@ -135,6 +135,8 @@ const resultConfig = {
                 "exam_sets" : examSet
             };
 
+            
+
         
             $.each(obj, function(index, item){
                 if(index != "advanced_grading" && item == null){

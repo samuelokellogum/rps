@@ -27,6 +27,8 @@ const marks = {
                 })
             }
         }
+
+        
     },
     data(){
         return{
@@ -48,6 +50,16 @@ const marks = {
         }
     },
     methods:{
+        onMarksInput(e, id){
+            var app = this
+            var value = e.target.value
+            var old_value = value.substring(0, value.length - 1)
+            var new_char = value.slice(-1)
+
+            if (!app.isNumber(new_char) || (parseInt(value) > 100)) {
+                $("#"+id).val(old_value)
+            }
+        },
         onMarkSubjectChange(e){
             var app = this;
             app.selected_pats = []
@@ -67,12 +79,7 @@ const marks = {
                 },
                 success(data){
                     allowedPats = data
-                    
-                    // app.marks_sub_pats.forEach(function (obj) {
-                    //      app.selected_pats.push(obj.id)
-                    //  })
-
-                     app.selected_pats = allowedPats
+                    app.selected_pats = allowedPats  
                 }
             })
 

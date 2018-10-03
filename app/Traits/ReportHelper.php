@@ -17,7 +17,6 @@ trait ReportHelper
         $students = $genResultsFor->students;
         $exam_sets = json_decode($reportConfig->exam_sets);
 
-
         foreach($students as $student){
 
             $resulst_data = [];
@@ -27,11 +26,11 @@ trait ReportHelper
                 if($subject->particulars->count() > 0) {
                     foreach($subject->particulars as $particular){
                         if(in_array($particular->id, $clazz->patsForSubject($subject->id)->pluck("subject_pat_id")->toArray())){
-                            $mark = self::MarkByExamSet($exam_sets, $clazz, $student, $term, $subject, $reportConfig->grading_id);
+                            $mark = self::MarkByExamSet($exam_sets, $clazz, $student, $term, $subject, $reportConfig);
                         }
                     }
                 }else{
-                    $mark = self::MarkByExamSet($exam_sets, $clazz ,$student, $term, $subject, $reportConfig->grading_id);
+                    $mark = self::MarkByExamSet($exam_sets, $clazz ,$student, $term, $subject, $reportConfig);
                 }
                 $subject_data= [
                     "result" => $mark->all_data,
@@ -59,7 +58,7 @@ trait ReportHelper
 
     }
 
-    static function MarkByExamSet($exam_sets, $clazz, $student, $term, $subject, $grade_id){
+    static function MarkByExamSet($exam_sets, $clazz, $student, $term, $subject,$reportConfig){
     
         $total_mark = 0;
         $sets_count = count($exam_sets);
@@ -82,7 +81,7 @@ trait ReportHelper
                     if (in_array($particular->id, $clazz->patsForSubject($subject->id)->pluck("subject_pat_id")->toArray())) {
                         $markData = self::markData($student, $subject, $exam, $term, $particular->id);
                         $total_marks += $markData->grade_by;
-                        $grade_data = self::getMarkGrade($grade_id, $markData->grade_by);
+                        $grade_data = self::getMarkGrade($reportConfig->grading_id, $markData->grade_by);
                         $_marks[] = array(
                             "mark" => $markData->the_mark,
                             "g_symbol" => $grade_data->symbol,
@@ -100,7 +99,7 @@ trait ReportHelper
             } else {
                 $markData = self::markData($student, $subject,$exam, $term, null);
                 $total_marks += $markData->grade_by;
-                $grade_data = self::getMarkGrade($grade_id, $markData->grade_by);
+                $grade_data = self::getMarkGrade($reportConfig->grading_id, $markData->grade_by);
                 $data[$exam->short_name][] = array(
                     "mark" => $markData->the_mark,
                     "g_symbol" => $grade_data->symbol,
@@ -145,7 +144,7 @@ trait ReportHelper
             $collect_val = collect($val); 
             $total = $collect_val->flatten(1)->sum();
             $avg_mark = round($total/ $collect_val->flatten(1)->count());
-            $grade_mark = self::getMarkGrade($grade_id, $avg_mark);    
+            $grade_mark = self::getMarkGrade($reportConfig->grading_id, $avg_mark);    
             $final_res_data[] = array(
                 "total" => $total,
                 "avg_mark" => $avg_mark,
@@ -154,17 +153,40 @@ trait ReportHelper
             ); 
         }
 
-        
+        if($reportConfig->advanced_grading == "yes"){
+            $final_result = collect($final_res_data);
+            $final_points = $final_result->pluck("points"); 
+            $ad_grade = self::useAdvancedGrade($clazz->id, ($final_points->sum()/ $final_points->count()));
+          
+        }
+      
 
         $final_res_data_sum = collect($final_res_data);
-        $total = round($final_res_data_sum->pluck("avg_mark")->sum() / $final_res_data_sum->count());
-        $final_grade_mark = self::getMarkGrade($grade_id, $total);
-        $final_res_data["all_average"] = array(
-            "total" => $total,
-            "points" => $final_grade_mark->consist_of,
-            "symbol" => $final_grade_mark->symbol,
-            "comment" => $final_grade_mark->comment
-        );
+       
+        if ($reportConfig->advanced_grading == "yes") {
+            $final_result = collect($final_res_data);
+            $final_points = $final_result->pluck("points");
+            $total = round($final_res_data_sum->pluck("avg_mark")->sum() / $final_res_data_sum->count());
+            $ad_grade = self::useAdvancedGrade($clazz->id, ($final_points->sum() / $final_points->count()));
+            $final_res_data["all_average"] = array(
+                "total" => $total,
+                "points" => $ad_grade->consist_of,
+                "symbol" => $ad_grade->symbol,
+                "comment" => $ad_grade->comment
+            );
+        }else{
+            $total = round($final_res_data_sum->pluck("avg_mark")->sum() / $final_res_data_sum->count());
+            $final_grade_mark = self::getMarkGrade($reportConfig->grading_id, $total);
+            $final_res_data["all_average"] = array(
+                "total" => $total,
+                "points" => $final_grade_mark->consist_of,
+                "symbol" => $final_grade_mark->symbol,
+                "comment" => $final_grade_mark->comment
+            );
+        }
+
+       // dd((object)["all_data" => $data, "final_results" => $final_res_data]);
+        
         return (object)[ "all_data" => $data, "final_results" => $final_res_data];
     }
 
@@ -196,7 +218,18 @@ trait ReportHelper
         }
 
         return $data;
+    }
 
+    static function useAdvancedGrade($clazz_id, $points = 0){
+        $data = null;
+        $ad_grading = \App\Clazz::find($clazz_id)->advancedGrade()->orderBy("consist_of", "desc")->get();
+        foreach($ad_grading as $adg){
+            if (\Util::in_range($points, $adg->range_1, $adg->range_2)) {
+                $data = $adg;
+                break;
+            }
+        }
+        return $data;
     }
 
     static function determingPosition($clazz_id, $by , $term){
@@ -213,6 +246,7 @@ trait ReportHelper
 
         $collect_data = collect($data->student_results);
         $type = "points";
+
 
         if($position_by == "marks"){
             $con = $collect_data->sortByDesc(function ($data, $key) {

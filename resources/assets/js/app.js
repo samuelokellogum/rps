@@ -111,5 +111,9 @@ const app = new Vue({
                 }
             })
         },
+        isNumber(n) {
+            return !isNaN(parseFloat(n)) && isFinite(n);
+        }
+
     }
 });

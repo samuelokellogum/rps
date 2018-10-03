@@ -17,7 +17,7 @@
 
         <div v-if="marks_sub_pats.length > 0"  class="col-md-2">
             <div v-for="(sub_pat, index) in marks_sub_pats" class="form-check">
-                <label v-if="selected_pats.includes(sub_pat.id)" class="cr-label">
+                <label class="cr-label">
                     <input  @change="AddOrRemove" type="checkbox" :checked="selected_pats.includes(sub_pat.id)" name="check" :value="sub_pat.id"> <span class="label-text">@{{ sub_pat.name }}</span>
                 </label>
             </div>
@@ -69,10 +69,10 @@
                         <input class="student-photo" hidden :value="student.photo">
                     </td>
                     <td  v-for="(sub_pat, index) in marks_sub_pats" v-if="marks_sub_pats.length > 0 && selected_pats.includes(sub_pat.id)">
-                        <input class="student-marks" :data-pat="sub_pat.id" :data-patname="sub_pat.name"  type="number">
+                        <input @input="onMarksInput($event, student.id+'-'+index)" :id="student.id+'-'+index" class="student-marks" :data-pat="sub_pat.id" :data-patname="sub_pat.name"  type="text">
                     </td>
                     <td v-if="marks_sub_pats.length == 0">
-                        <input class="student-marks" :data-pat="marks_subject_data.id" :data-patname="marks_subject_data.name"  type="number">
+                        <input @input="onMarksInput($event, student.id)" :id="student.id" class="student-marks" :data-pat="marks_subject_data.id" :data-patname="marks_subject_data.name"  type="text">
                     </td>
                 </tr>
                 </tbody>

@@ -43,11 +43,14 @@ class ResultsController extends Controller
         $student = Student::find($request->id);
         $subjects = $student->clazz()->subjects;
 
+        $exam = $request->exam;
+        $term = $request->term;
+
         foreach ($subjects as $subject){
             $all_marks = [];
             if($subject->particulars->count() > 0){
                 foreach ($subject->particulars as $particular){
-                    $mark = $student->mark($student->id, 1,1, $subject->id, $particular->id);
+                    $mark = $student->mark($student->id, $exam, $term, $subject->id, $particular->id);
                     $marks = array(
                         "mark" => ($mark != null) ? $mark->mark : null,
                         "mark_id" => ($mark != null) ? $mark->id : null,

@@ -33,4 +33,8 @@ class Clazz extends Model
     public function reportConfig(){
         return $this->hasOne(ReportConfig::class);
     }
+
+    public function advancedGrade(){
+        return $this->hasMany(AdvancedGrading::class);
+    }
 }

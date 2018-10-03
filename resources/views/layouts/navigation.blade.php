@@ -90,13 +90,18 @@
                     </ul>
                 </li>
 
+
                 <li>
-                    <a href="#">Grade<span class="fa arrow"></span></a>
+                    <a href="{{ route("grading") }}">Grading</a>
+                </li>
+
+                {{--  <li>
+                    <a href="#">Grading<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li> <a href="{{ route("grading") }}">Grading</a></li>
                         <li> <a href="{{ route("grading") }}">Class Grading</a></li>
                     </ul>
-                </li>
+                </li>  --}}
 
                 @if($classes->count() > 0)
                     <li>
@@ -145,7 +150,7 @@
                                 $count_streams = $streams->count();
                                 ?>
                                 <li>
-                                    <a href="{{ ($count_streams > 0) ? '#' : route("results", ["by" => "class", "id" => $class->id]) }}">{{ $class->name }} @if($count_streams > 0 ) <span class="fa arrow"></span> @endif</a>
+                                    <a href="{{ ($count_streams > 0) ? '#' : route("results", ["by" => "clazz", "id" => $class->id]) }}">{{ $class->name }} @if($count_streams > 0 ) <span class="fa arrow"></span> @endif</a>
                                     @if($count_streams > 0)
                                         <ul class="nav nav-third-level">
                                             @foreach($class->streams as $stream)
@@ -171,7 +176,7 @@
                                 $count_streams = $streams->count();
                                 ?>
                                 <li>
-                                    <a href="{{ ($count_streams > 0) ? '#' : route("reportCards", ["by" => "class", "id" => $class->id]) }}">{{ $class->name }} @if($count_streams > 0 ) <span class="fa arrow"></span> @endif</a>
+                                    <a href="{{ ($count_streams > 0) ? '#' : route("reportCards", ["by" => "clazz", "id" => $class->id]) }}">{{ $class->name }} @if($count_streams > 0 ) <span class="fa arrow"></span> @endif</a>
                                     @if($count_streams > 0)
                                         <ul class="nav nav-third-level">
                                             @foreach($class->streams as $stream)

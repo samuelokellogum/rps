@@ -6,6 +6,8 @@
         <form method="get" action="{{ route("results") }}">
             <input hidden name="by" value="{{ $by }}">
             <input hidden name="id" value="{{ $id }}">
+            <input hidden name="selected_term" value="{{ $selected_term }}">
+            <input hidden name="selected_exam" value="{{ $selected_exam }}">
         <div class="col-md-3">
             <h5>Select Term: </h5>
             <select name="term" class="form-control" required>

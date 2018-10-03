@@ -114,16 +114,8 @@ Route::get("generateReports", "ReportController@generateReports")->name("generat
 
 
 
-Route::get("test/{val}", function(Request $req){
-  $student_report_card = \App\Student::find($req->val)->reportCards;
-
-  $full_report = $student_report_card[0]->full_report;
-
-  $results = $full_report->results;
-  dump(collect($results)->first()->result);
-
-  foreach($results as $key => $val){
-    dump($key);
-    dump($val);
-  }
+Route::get("test", function(Request $req){
+  //dd(\App\Clazz::find(1)->reportConfig);
+  $data = ReportHelper::genResults(2,"clazz", 1);
+  dd($data);
 });
