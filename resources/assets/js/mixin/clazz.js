@@ -68,7 +68,7 @@ const clazz = {
                 success(data){
                     app.updateDataTable(app.class_with_streams = data)
                     $("#modal-add-clazz").modal("hide")
-                    console.log(data)
+                    app.toastMessage('Data Saved !!', 'success')
                 }
             })
         },
@@ -86,7 +86,7 @@ const clazz = {
                         app.class_streams = app.class_with_streams[app.class_stream_index].streams
                     }
 
-                    console.log(data)
+                    app.toastMessage('Data Saved !!', 'success')
                 }
             })
         },

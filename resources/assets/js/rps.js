@@ -40,12 +40,22 @@ $(document).ready(function(){
             }
         }
     })
+    $("#form-school-data").validate()
     $("#form-add-subject").validate()
     $("#form-add-subject-pat").validate()
     $("#form-add-term").validate()
     $("#form-add-student").validate()
     $("#form-update-temp").validate()
-    $("#form-exam-set").validate()
+    $("#form-exam-set").validate({
+        rules:{
+            total_mark:{
+                required: true,
+                min: 1,
+                max: 100,
+                number: true
+            }
+        }
+    })
     $("#form-advanced-config").validate({
         rules:{
             range_1:{

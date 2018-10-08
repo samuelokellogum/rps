@@ -7,6 +7,8 @@ const results = {
         return{
             results_marks:{},
             mark_data: {},
+            term_update: 0,
+            exam_update: 0,
             is_mark_updated: false
         }
     },
@@ -42,6 +44,9 @@ const results = {
         updateMark(){
             var app = this
 
+            app.exam_update = $("input[name=selected_exam]").val();
+            app.term_update =  $("input[name=selected_term]").val();
+
             if($("#form-update-mark").valid()){
                 $.ajax({
                     url: base_url+"/updateMark",
@@ -51,10 +56,7 @@ const results = {
                         app.results_marks = data
                         app.is_mark_updated = true
                         $("#modal-update-mark").modal("hide")
-                        app.$iziToast.success({
-                            position: 'topCenter',
-                            message: "Marks  updated",
-                        })
+                        app.toastMessage('Marks updated')
                     }
                 })
             }

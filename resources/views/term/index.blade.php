@@ -28,7 +28,7 @@
                     <td>@{{ term.name }}</td>
                     <td><span>@{{ term.start | moment("ddd, DD/MMM/YYYY") }}</span></td>
                     <td><span>@{{ term.end | moment("ddd, DD/MMM/YYYY") }}</span></td>
-                    <td>@{{ term.year }}</td>
+                    <td>@{{ term.year }} <span  style="margin-left: 20px" :class="{ is_active: term.status == 'active', is_inactive: term.status == 'inactive' }"> @{{ term.status | uppercase }} </span></td>
                     <td>
 
                         <button @click="onTermUpdate(term.id)" type="button" class="btn btn-default">

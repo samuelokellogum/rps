@@ -58,7 +58,9 @@
                                 </td>
                             </tr>
                             <tr class="exam_sets">
-                                <td>Exam Set on final report</td>
+                                <td>
+                                    Exam Set on final report
+                                </td>
                                 <td>
                                     @foreach (\App\ExamSet::all() as $examSet)
                                     <label style="margin-left: 30px" class="cr-label">
@@ -80,18 +82,10 @@
                         </thead>
                         <tbody>
                         <tr class="score_by">
-                            <td>Sum Subject Marks: </td>
+                            <td>Get average mark: </td>
                             <td>
-                                <label class="cr-label">
-                                    <input type="radio" name="score_by"  value="subject" :checked="rc_data.score_by && rc_data.score_by == 'subject'"> <span class="label-text"></span>
-                                </label>
-                            </td>
-                        </tr>
-                        <tr class="score_by">
-                            <td>Total per paper: </td>
-                            <td>
-                                <label class="cr-label">
-                                    <input type="radio" name="score_by"  value="per_paper" :checked="rc_data.score_by && rc_data.score_by == 'per_paper'"> <span class="label-text"></span>
+                                <label style="" class="cr-label">
+                                    <input type="checkbox" name="do_avg"  value="yes" :checked="rc_data.do_avg == 'yes'"> <span class="label-text"></span>
                                 </label>
                             </td>
                         </tr>

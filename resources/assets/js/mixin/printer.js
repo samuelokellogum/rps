@@ -33,18 +33,10 @@ const printer = {
             };
 
             var usable_measures = available_dips[closest].split("x");
-            console.log("width: "+usable_measures[0], "height: "+usable_measures[1]);
-
-        //    $.each(available_dips,function(index, item) {
-        //         console.log(index, item)
-        //     })
-
-            
-            //$("#"+id).width(usable_measures[0]).height(usable_measures[1])
+                 
             $("#" + id).css({
                 'width': ''+usable_measures[1]+'px',
                 'height': ''+usable_measures[1]+'px',
-                'color': 'red'
             })
             $("#"+id).printThis({
                 debug: false,

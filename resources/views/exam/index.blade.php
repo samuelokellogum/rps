@@ -16,6 +16,7 @@
                         <th style="width: 10%">#</th>
                         <th>Name</th>
                         <th>Short Name</th>
+                        <th>Total Mark</th>
                         <th style="width: 10%"></th>
                     </tr>
                 </thead>
@@ -27,6 +28,7 @@
                             <td>{{ $count++ }}</td>
                             <td>{{ $examSet->name }}</td>
                             <td>{{ $examSet->short_name }}</td>
+                            <td>{{ $examSet->total_mark }}</td>
                             <td>
                                 <button @click="onExamSetUpdate({{$examSet->id}})" type="button" class="btn btn-default">
                                     <span class="fa fa-pencil" aria-hidden="true"></span>

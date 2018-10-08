@@ -111,7 +111,7 @@ const resultConfig = {
         },
         confirmConfig(clazz_id){
             var app = this
-            var scoreBy = $("input[name='score_by']:checked").val()
+            var do_avg = $("input[name='do_avg']:checked").val()
             var positionBy = $("input[name='position_by']:checked").val()
             var pointsBy = $("#points_by").val();
             var grading = $("#grading").val()
@@ -126,7 +126,7 @@ const resultConfig = {
             })
 
             var obj = {
-                "score_by" : scoreBy,
+                "do_avg" : do_avg,
                 "position_by" : positionBy,
                 "points_by" : pointsBy,
                 "grading_id" : grading,
@@ -139,7 +139,7 @@ const resultConfig = {
 
         
             $.each(obj, function(index, item){
-                if(index != "advanced_grading" && item == null){
+                if(index != "advanced_grading" && index != "do_avg" && item == null){
                     app.hasError = true
                     $("."+index).css('background-color', 'red');
                     return;
@@ -152,7 +152,7 @@ const resultConfig = {
                 }
             });
 
-            console.log(app.hasError, obj)
+            
             if(app.hasError){
                 swal('Error','Missing Cofigurations','error');
                 app.hasError = false
@@ -165,12 +165,11 @@ const resultConfig = {
             $.ajax({
                 url: base_url +'/addReportConfig',
                 data: obj,
-                success(data){9
-                    app.rc_data = data;
-                    app.$iziToast.success({
-                        position: 'topCenter',
-                        message: "Configurations done",
-                    })
+                success(data){
+                    console.log(data)
+
+                    //app.rc_data = data;
+                    app.toastMessage('Configurations done !!')
                 }
             })
 

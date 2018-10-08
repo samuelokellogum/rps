@@ -5,6 +5,25 @@
 @import "components/results";
 @import "components/report_config";
 @import "components/report_temps";
+// @import "components/table";
+
+//textarea validate
+textarea.error {
+  border: 1px solid #FF0000 !important;
+}
+
+//hide vue items
+[v-cloak] {
+  display: none;
+}
+
+.is_active{
+  color: green;
+}
+
+.is_inactive{
+  color: red;
+}
 
 .printable-table{
   tr{
@@ -124,3 +143,11 @@ input{
   width: 40%;
   margin-left: 20px;
 }
+
+.td-sep{
+  width: 3px;
+  display: inline-block;
+  background-color: #cccccc;
+  height: 100%;
+}
+

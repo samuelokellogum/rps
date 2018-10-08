@@ -13,6 +13,8 @@
                     {{ csrf_field() }}
                     <input hidden :value="mark_data.id"   name="id">
                     <input hidden :value="mark_data.student"   name="student">
+                    <input hidden :value="term_update"   name="term">
+                    <input hidden :value="exam_update"   name="exam">
                     <div class="col-md-12">
                         <input name="mark" :value="mark_data.mark"  class="form-control" type="text">
                     </div>

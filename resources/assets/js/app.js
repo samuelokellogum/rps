@@ -42,12 +42,38 @@ const app = new Vue({
     data:{
         imageShow: false,
         imageSrc: '',
-        storage_path: base_url+"/storage/"
+        storage_path: base_url+"/storage/",
+        ajax_btn_disable : false
     },
     mounted(){
+        var app = this;
         //show swal messages
         if($("#swal-message").length > 0){
             this.showMessage($("#swal-type").val(), $("#swal-message").val())
+        }
+
+         //show toast
+         if ($("#toast-message").length > 0) {
+             this.toastMessage($("#toast-message").val(), $("#toast-type").val())
+         }
+
+        $(document).ajaxSend(function () {
+            $('button').attr('disabled', true)    
+        });
+
+        $(document).ajaxComplete(function () {
+            $('button').attr('disabled', false)
+        });
+
+        //image presets
+        if($("#img-preset").length > 0){
+            app.imageShow = true
+            app.imageSrc = $("#img-preset").val()
+        }
+    },
+    filters: {
+        uppercase: function (v) {
+            return v.toUpperCase();
         }
     },
     methods:{
@@ -110,6 +136,27 @@ const app = new Vue({
                     //window.location.reload(true)
                 }
             })
+        },
+        toastMessage(message, type = 'success', position = 'topRight'){
+            var app = this
+            if(type == 'error'){
+                app.$iziToast.error({
+                    position: position,
+                    message: message,
+                    progressBar: true,
+                    timeout: 8000,
+                })
+            }else{
+                app.$iziToast.success({
+                    position: position,
+                    message: message,
+                    progressBar: true,
+                    timeout: 8000,
+                })
+            }
+        },
+        showDefaultMethod(){
+            this.toastMessage('Done !!')
         },
         isNumber(n) {
             return !isNaN(parseFloat(n)) && isFinite(n);

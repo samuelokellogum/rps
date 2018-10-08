@@ -18,11 +18,13 @@ class ExamController extends Controller
             "id" => $request->id
         ],[
             "name" => $request->name,
-            "short_name" => $request->short_name
+            "short_name" => $request->short_name,
+            "total_mark" => $request->total_mark
         ]);
 
 
-        session()->flash("swal_message",["type" => "success", "message" => "Data Saved!!"]);
+        //session()->flash("swal_message",["type" => "success", "message" => "Data Saved!!"]);
+        session()->flash("toast_message",["type" => "success", "message" => "Data Saved!!"]);
         return redirect()->back();
 
     }

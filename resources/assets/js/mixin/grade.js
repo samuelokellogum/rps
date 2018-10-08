@@ -46,11 +46,7 @@ const grade = {
                     success(data){
                         app.updateDataTable(app.grade_with_details = data)
                         $("#modal-add-grading").modal("hide")
-
-                        app.$iziToast.success({
-                            position: 'topCenter',
-                            message: "Done!!",
-                        })
+                        app.showDefaultMethod()
                     }
                 })
             }
@@ -82,10 +78,7 @@ const grade = {
 
                         if(data.type){
 
-                            app.$iziToast.error({
-                                position: 'topCenter',
-                                message: data.message,
-                            })
+                            app.toastMessage(data.message, 'error')
 
                         }else{
 
@@ -96,10 +89,7 @@ const grade = {
                             }
                             app.clearForm()
 
-                            app.$iziToast.success({
-                                position: 'topCenter',
-                                message: "Done!!",
-                            })
+                            app.showDefaultMethod()
 
 
                         }

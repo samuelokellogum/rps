@@ -37,17 +37,11 @@ const term = {
                     success(data){
 
                         if(data.type){
-                            app.$iziToast.error({
-                                position: 'topCenter',
-                                message: data.message,
-                            })
+                            app.toastMessage(data.message, 'error')
                         }else{
                             app.updateDataTable(app.all_terms = data)
                             $("#modal-add-term").modal("hide")
-                            app.$iziToast.success({
-                                position: 'topCenter',
-                                message: "Done!!",
-                            })
+                            app.toastMessage("Done !!", 'success')
                         }
 
                     }

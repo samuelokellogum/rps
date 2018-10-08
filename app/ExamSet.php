@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class ExamSet extends Model
 {
     protected $fillable = [
-        "name", "short_name"
+        "name", "short_name", "total_mark"
     ];
 }

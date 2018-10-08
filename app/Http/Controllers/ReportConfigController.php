@@ -89,8 +89,10 @@ class ReportConfigController extends Controller
     public function addReportConfig(Request $request){
 
         $data = $request->all();
+
         $data["exam_sets"] = json_encode($request->exam_sets);
         $data["advanced_grading"] = isset($request->advanced_grading) ? $request->advanced_grading : "no";
+        $data["do_avg"] = isset($request->do_avg) ? $request->do_avg : "no";
 
 
 

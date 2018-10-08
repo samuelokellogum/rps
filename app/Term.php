@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Term extends Model
 {
     protected $fillable = [
-        "name", "year", "start", "end"
+        "name", "year", "start", "end", "status"
     ];
 }

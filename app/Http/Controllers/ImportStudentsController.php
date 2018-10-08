@@ -18,7 +18,8 @@ class ImportStudentsController extends Controller
 
     public function importStudentFile(Request $request){
         \ImportHandler::importFile($request);
-        return view("student.import.temp_view");
+        return redirect()->route('viewStudentImport');
+        //return view("student.import.temp_view");
     }
 
 
@@ -30,8 +31,7 @@ class ImportStudentsController extends Controller
         $file = ImportFile::orderBy("id", "desc")->first();
 
         if($file != null){
-          $temp_data = $file->studentData()->orderBy("status", "desc")->get();
-            //dd($temp_data);
+          $temp_data = $file->studentData()->orderBy("id", "asc")->orderBy("status", "desc")->get();
             return view("student.import.temp_view", compact('temp_data', 'file'));
         }
 
@@ -83,6 +83,10 @@ class ImportStudentsController extends Controller
                 "year" => Carbon::now()->format("Y")
             ]);
         }
-        dd($students);
+
+
+        session()->flash("toast_message", ["type" => "success", "message" => "Data Saved!!"]);
+        return redirect()->route("importStudents");
+
     }
 }

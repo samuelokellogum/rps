@@ -32,6 +32,7 @@ const marks = {
     },
     data(){
         return{
+            mark_max : 0,
             mark_exam_set: {},
             mark_terms: {},
             marks_clazz: {},
@@ -56,9 +57,22 @@ const marks = {
             var old_value = value.substring(0, value.length - 1)
             var new_char = value.slice(-1)
 
-            if (!app.isNumber(new_char) || (parseInt(value) > 100)) {
+            
+
+            if (!app.isNumber(new_char) || (parseInt(value) > parseInt(app.mark_max))) {
                 $("#"+id).val(old_value)
+
+                if (app.mark_max == 0) {
+                    swal('Please select exam set');
+                    return;
+                }
+                if ((parseInt(value) > parseInt(app.mark_max))) {
+                    swal('Maximum value should be ' + app.mark_max)
+                    return;
+                }
             }
+           
+            
         },
         onMarkSubjectChange(e){
             var app = this;
@@ -98,6 +112,7 @@ const marks = {
         onMarkExamChange(e){
             var app = this
             app.selected_exam = app.mark_exam_set[e.target.value]
+            app.mark_max = app.selected_exam.total_mark
         },
         AddOrRemove(e){
             var app = this
@@ -182,12 +197,9 @@ const marks = {
                 success(data){
 
                     if(data.type){
-                        swal(data.message)
+                        app.toastMessage(data.message, 'error')
                     }else{
-                        app.$iziToast.success({
-                            position: 'topCenter',
-                            message: "Subjects updated",
-                        })
+                         app.showDefaultMethod()
                     }
                     console.log(data)
                 }

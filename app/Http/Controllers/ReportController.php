@@ -8,6 +8,7 @@ use App\ClazzStream;
 use App\Term;
 use ReportHelper;
 use App\Student;
+use App\School;
 
 class ReportController extends Controller
 {
@@ -35,7 +36,8 @@ class ReportController extends Controller
     public function studentReport(Request $request){
         $student = Student::find($request->student_id);
         $results = $student->reportCards[0];
-    
-        return view("report.templates.report_2", compact('student', 'results'));
+        $school = School::find(1);
+        $term = Term::find($results->term_id);
+        return view("report.templates.report_3", compact('student', 'results', 'school', 'term'));
     }
 }

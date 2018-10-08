@@ -24,7 +24,7 @@
                 <tr v-for="(subject , index) in subjects_with_pats">
                     <td>@{{ index + 1 }}</td>
                     <td>@{{ subject.name }}</td>
-                    <td><a @click.prevent.stop="showAddSubjectPat(subject.id, index)" style="font-size: 12px; margin-left: 20px" href="#">Add particular</a></td>
+                    <td><a @click.prevent.stop="showAddSubjectPat(subject.id, index)" style="font-size: 12px; margin-left: 20px" href="#">@{{ subject.particulars.length }}  Add particular</a></td>
                     <td>
 
                         <button @click="onSubjectUpdate(subject.id)" type="button" class="btn btn-default">

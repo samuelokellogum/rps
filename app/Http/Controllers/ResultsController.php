@@ -19,15 +19,18 @@ class ResultsController extends Controller
         $id = $request->id;
         $selected_term = $request->term;
         $selected_exam = $request->exam;
+        
 
-        $class = ($request->by == "class") ? Clazz::find($request->id) : ClazzStream::find($request->id)->clazz ;
-        $students = ($request->by == "class") ? Clazz::find($request->id)->students()->orderBy("name", "asc")->get()
+        $class = ($request->by == "clazz") ? Clazz::find($request->id) : ClazzStream::find($request->id)->clazz ;
+        $students = ($request->by == "clazz") ? Clazz::find($request->id)->students()->orderBy("name", "asc")->get()
             : ClazzStream::find($request->id)->students()->orderBy("name", "asc")->get();
         $stream = ($request->by == "stream") ? ClazzStream::find($request->id) : null ;
 
 
-        $subjects = ($request->by == "class") ? $class->subjects : $stream->subjects;
+        //TODO check if subjects in not null
+        $subjects = ($request->by == "clazz") ? $class->subjects : $stream->subjects;
 
+        
         $terms = Term::all();
         $exam_sets = ExamSet::all();
 
@@ -60,7 +63,7 @@ class ResultsController extends Controller
                     $all_marks[] = $marks;
                 }
             }else{
-                $mark = $student->mark($student->id, 1,1, $subject->id, null);
+                $mark = $student->mark($student->id, $exam, $term, $subject->id, null);
                 $marks = array(
                     "mark" => ($mark != null) ? $mark->mark : null,
                     "mark_id" => ($mark != null) ? $mark->id : null,
@@ -84,13 +87,17 @@ class ResultsController extends Controller
 
     public function updateMark(Request $request){
         $mark = Mark::find($request->id);
+
+        $exam = $request->exam;
+        $term = $request->term;
+
         $mark->update([
             "mark" => $request->mark
         ]);
-        return $this->allData($request->student);
+        return $this->allData($request->student, $exam, $term);
     }
 
-    private function allData($student_id){
+    private function allData($student_id, $exam, $term){
         $all_data = [];
 
         $student = Student::find($student_id);
@@ -100,7 +107,7 @@ class ResultsController extends Controller
             $all_marks = [];
             if($subject->particulars->count() > 0){
                 foreach ($subject->particulars as $particular){
-                    $mark = $student->mark($student->id, 1,1, $subject->id, $particular->id);
+                    $mark = $student->mark($student->id, $exam , $term, $subject->id, $particular->id);
                     $marks = array(
                         "mark" => ($mark != null) ? $mark->mark : null,
                         "mark_id" => ($mark != null) ? $mark->id : null,
@@ -110,7 +117,7 @@ class ResultsController extends Controller
                     $all_marks[] = $marks;
                 }
             }else{
-                $mark = $student->mark($student->id, 1,1, $subject->id, null);
+                $mark = $student->mark($student->id, $exam, $term, $subject->id, null);
                 $marks = array(
                     "mark" => ($mark != null) ? $mark->mark : null,
                     "mark_id" => ($mark != null) ? $mark->id : null,

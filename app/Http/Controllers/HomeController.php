@@ -29,7 +29,8 @@ class HomeController extends Controller
     }
 
     public function regSchool(){
-        return view("school.index");
+        $school = School::find(1);
+        return ($school != null) ? view("school.index", compact('school')) : view('school.index');
     }
 
     public function addSchoolData(Request $request){
@@ -38,7 +39,13 @@ class HomeController extends Controller
             $file = \Util::storeFile("school/badge/", $request->usr_image);
             $badge = $file->file_path;
         }else{
-            $badge = School::find(1)->badge;
+            $school = School::find(1);
+            $badge = ($school != null) ? $school->badge : null;
+        }
+
+        if($badge == null){
+            session()->flash("toast_message", ["type" => "error", "message" => "School badge missing data rejected"]);
+            return redirect()->back();
         }
 
         School::updateOrCreate([
@@ -51,6 +58,7 @@ class HomeController extends Controller
             "badge" => $badge,
             "website" => $request->website
         ]);
-        dd($request->all());
+        session()->flash("toast_message", ["type" => "success", "message" => "School data upodated"]);
+      return redirect()->back();
     }
 }

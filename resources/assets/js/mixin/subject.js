@@ -63,10 +63,7 @@ const subject = {
                     success(data){
                         $("#modal-add-subject").modal("hide")
                         app.updateDataTable(app.subjects_with_pats = data)
-                        app.$iziToast.success({
-                            position: 'topCenter',
-                            message: "Done!!",
-                        })
+                        app.showDefaultMethod()
                     }
                 })
             }
@@ -97,10 +94,7 @@ const subject = {
                         if(app.subject_index != null){
                             app.subject_pats = app.subjects_with_pats[app.subject_index].particulars
                         }
-                        app.$iziToast.success({
-                            position: 'topCenter',
-                            message: "Done!!",
-                        })
+                        app.showDefaultMethod()
 
                         app.clearSubForm()
 
@@ -169,10 +163,7 @@ const subject = {
                     app.subjects_list = data.subjects;
                     app.updateDataTable(app.class_with_subjects = data.class_with_subjects)
                     $("#modal-list-subjects").modal("hide")
-                    app.$iziToast.success({
-                        position: 'topCenter',
-                        message: "Subjects updated",
-                    })
+                   app.showDefaultMethod()
                 }
             })
         }

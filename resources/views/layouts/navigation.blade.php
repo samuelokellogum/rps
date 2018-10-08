@@ -39,6 +39,10 @@
                 </li>
 
                 <li>
+                    <a href="{{ route("regSchool") }}">School</a>
+                </li>
+
+                <li>
                     <a href="{{ route("term") }}">Term</a>
                 </li>
 

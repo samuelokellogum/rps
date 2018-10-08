@@ -3,6 +3,8 @@
 
 <div id="printMe" class="row">
 
+    
+
     <div class="col-md-12">
         <div style="text-align: center">
             <img src="{{ asset('img/school_badge.jpg') }}" style="width: 150px; height: 100px">
@@ -16,13 +18,14 @@
             <tbody>
                 <tr>
                     <td style="width: 15%">
-                        <img src="{{ asset('img/member.jpg') }}" style="width: 100px; height: 120px">
+                        <img src="{{ ($student->photo == null) ? asset('img/userplaceholder.png') : asset('storage/{$student->photo}') }}" style="width: 100px; height: 120px">
                     </td>
                      <td>
                         <h6>Name: {{ $student->name }}</h6>
-                        <h6>Class: Form 1 North</h6>
+                        <h6>Class: {{ $student->clazz()->name }}</h6>
                         <h6>Position: {{ $results->full_report->position }}</h6>
                         <h6>Points: {{ $results->full_report->all_avg->points }}</h6>
+                        <h6>Total : {{ $results->full_report->all_avg->total }}</h6>
                      </td>
                 </tr>
             </tbody>
@@ -31,7 +34,7 @@
 
 
     <div class="col-md-12">
-            <table class="table table-striped table-bordered">
+            <table class="table table-striped table-bordered table-pretty">
                 <thead>
                     <tr>
                         <th style="width: 20%"></th>
@@ -46,14 +49,32 @@
                         <tr>
                             <td>{{ $key}}</td>
                             @foreach ($result->result as $k => $v)
-                                <td>
-                                @foreach ($v as $fv)
-                                    {{ $fv->mark }}
-                                @endforeach
+                                <td class="pretty">
+                                    <div class="row">
+                                        @foreach ($v as $fv)
+                                        <div class="col-sm-{{ round(12/count($v)) }}">
+                                            {{ $fv->mark }}                                        
+                                        </div>    
+                                        @endforeach
+                                    </div>
                                 </td>
                             @endforeach
 
-                            <td> {{ $result->final_result->all_average->total }} |  {{ $result->final_result->all_average->symbol }} | {{ $result->final_result->all_average->comment }}</td>
+                            <td class="pretty">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        {{ $result->final_result->all_average->total }}
+                                    </div>
+                                <div class="col-sm-4">
+                                    {{ $result->final_result->all_average->symbol }}
+                                </div>
+                                <div class="col-sm-4">
+                                    {{ $result->final_result->all_average->comment }}
+                                </div>
+                            </div>
+                                
+                            </td>
+
                         <tr>
                     @endforeach
                 </tbody>

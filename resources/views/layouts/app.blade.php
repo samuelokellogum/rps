@@ -20,7 +20,7 @@
     <link href="{{ asset('css/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="wrapper">
+    <div id="wrapper" v-cloak>
         @include("layouts.navigation")
         <div id="page-wrapper">
             <div class="row">
@@ -39,6 +39,12 @@
         @if(session()->has("swal_message"))
             <input hidden id="swal-type" value="{{ session("swal_message")["type"] }}">
             <input hidden id="swal-message" value="{{ session("swal_message")["message"] }}">
+        @endif
+
+        {{-- toast message --}}
+        @if(session()->has("toast_message"))
+            <input hidden id="toast-type" value="{{ session("toast_message")["type"] }}">
+            <input hidden id="toast-message" value="{{ session("toast_message")["message"] }}">
         @endif
 
     </div>

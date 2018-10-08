@@ -35,7 +35,7 @@ class MarksController extends Controller
         $stream = ($request->by == "stream") ? ClazzStream::find($request->id) : null ;
         $subjects = ($request->by == "class") ? $class->subjects()->with("particulars")->get() : $stream->subjects()->with("particulars")->get();
         $exam_set = ExamSet::all();
-        $terms = Term::all();
+        $terms = Term::where("status", "active")->get();
 
         return [
             "terms" => $terms,"clazz" => $class,  "students" => $students, "stream" => $stream,  "subjects" => $subjects, "exam_sets" => $exam_set

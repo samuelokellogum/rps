@@ -127,7 +127,7 @@ trait ReportHelper
         $count  = count($res);
 
 
-        //dd($res);
+        dump($res);
 
        // dd($all_data);
 
@@ -169,11 +169,12 @@ trait ReportHelper
       
 
         $final_res_data_sum = collect($final_res_data);
+
        
         if ($reportConfig->advanced_grading == "yes") {
             $final_result = collect($final_res_data);
             $final_points = $final_result->pluck("points");
-            $total = round($final_res_data_sum->pluck("avg_mark")->sum() / $final_res_data_sum->count());
+            $total = ($reportConfig->do_avg == 'no') ? round($final_res_data_sum->pluck("total")->sum() / $final_res_data_sum->count()) :  round($final_res_data_sum->pluck("avg_mark")->sum() / $final_res_data_sum->count());
             $ad_grade = self::useAdvancedGrade($clazz->id, ($final_points->sum() / $final_points->count()));
             $final_res_data["all_average"] = array(
                 "total" => $total,
@@ -182,7 +183,8 @@ trait ReportHelper
                 "comment" => $ad_grade->comment
             );
         }else{
-            $total = round($final_res_data_sum->pluck("avg_mark")->sum() / $final_res_data_sum->count());
+            $total = ($reportConfig->do_avg == 'no') ? round($final_res_data_sum->pluck("total")->sum() / $final_res_data_sum->count()) :  round($final_res_data_sum->pluck("avg_mark")->sum() / $final_res_data_sum->count());
+            //$total = round($final_res_data_sum->pluck("avg_mark")->sum() / $final_res_data_sum->count());
             $final_grade_mark = self::getMarkGrade($reportConfig->grading_id, $total);
             $final_res_data["all_average"] = array(
                 "total" => $total,
@@ -192,7 +194,6 @@ trait ReportHelper
             );
         }
 
-       // dd((object)["all_data" => $data, "final_results" => $final_res_data]);
         
         return (object)[ "all_data" => $data, "final_results" => $final_res_data];
     }

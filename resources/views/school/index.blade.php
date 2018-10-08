@@ -1,35 +1,41 @@
-@extends('layouts.app_1')
+@extends('layouts.app')
 @section('content')
-        <div class="row">
+        <div class="row" style="margin-bottom: 50px">
             <div class="col-md-8 col-md-offset-2">
-                <h3 style="text-align: center">RPS</h3>
                 <div class="card-background has-padding">
-                    <form method="post" action="{{ route("addSchoolData") }}" enctype="multipart/form-data">
+                    <form method="post" id="form-school-data" action="{{ route("addSchoolData") }}" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         <div class="form-group">
                             <label>School name:</label>
-                            <input type="text" class="form-control" name="name">
+                            <input type="text" class="form-control" name="name" value={{ (isset($school)) ? $school->name :  '' }} required>
                         </div>
 
                         <div class="form-group">
                             <label>School contact:</label>
-                            <input type="text" class="form-control" name="contact">
+                            <input type="text" class="form-control" name="contact" value={{ (isset($school)) ? $school->contact :  '' }} required>
                         </div>
 
                         <div class="form-group">
                             <label>School address:</label>
-                            <input type="text" class="form-control" name="address" >
+                            {{--  <input type="text" class="form-control" name="address" value={{ (isset($school)) ? $school->address :  '' }}> --}}
+                            <textarea class="form-control" rows="3" id="comment" name="address" required>{{ (isset($school)) ? $school->address :  '' }}</textarea>
                         </div>
 
                         <div class="form-group">
                             <label>School motto</label>
-                            <input type="text" class="form-control" name="motto" >
+                            <input type="text" class="form-control" name="motto" value={{ (isset($school)) ? $school->motto :  '' }} required>
                         </div>
 
                         <div class="form-group">
                             <label>School website</label>
-                            <input type="text" class="form-control" name="website" >
+                            <input type="text" class="form-control" name="website" value={{ (isset($school)) ? $school->website :  '' }} required>
                         </div>
+
+
+                        {{--image prest--}}
+                        @if(isset($school) && $school->badge != null)
+                            <input hidden id="img-preset" value="{{ asset('storage/'.$school->badge) }}">
+                        @endif
 
                         <div class="form-group">
                             <div style="text-align: center">
