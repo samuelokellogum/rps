@@ -30,14 +30,17 @@ import Marks from "./mixin/marks"
 import Results from "./mixin/results"
 import Printer from "./mixin/printer"
 import ReportConfig from "./mixin/results_config"
+import Report from "./mixin/report.js"
 
 Vue.component('example', require('./components/Example.vue'));
+Vue.component('report', require('./components/Report.vue'));
+Vue.component('StudentReport', require('./components/StudentReport.vue'));
 
 const app = new Vue({
     el: '#wrapper',
     mixins:[
         Clazz, Subject, Term, Grade, Student, ImportStudents, Exam, Marks, Results,
-        Printer, ReportConfig
+        Printer, ReportConfig, Report
     ],
     data:{
         imageShow: false,

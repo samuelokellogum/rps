@@ -20,6 +20,7 @@
                     <div class="col-md-3">
                         <h5>&nbsp;</h5>
                         <button @click.prevent.stop="generateReports" class="btn btn-primary">Generate Reports</button>
+                        <button @click.prevent.stop="printReports" class="btn btn-primary">Print Reports</button>
                     </div>
 
                  </form>

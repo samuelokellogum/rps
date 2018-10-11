@@ -264,6 +264,23 @@ td.pretty .row div[class*=' col-']:last-child {
   border-bottom: 1px dotted black;
 }
 
+.printable-table td.rotate {
+  /* Something you can count on */
+  height: 120px;
+  width: 40px;
+  white-space: nowrap;
+}
+
+.printable-table td.rotate > div {
+  -webkit-transform: translate(6px, 50px) rotate(-90deg);
+          transform: translate(6px, 50px) rotate(-90deg);
+  width: 30px;
+}
+
+.printable-table td.rotate > div > span {
+  padding: 5px 10px;
+}
+
 .td-separator {
   display: block;
   width: 100%;

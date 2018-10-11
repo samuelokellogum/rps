@@ -40,4 +40,19 @@ class ReportController extends Controller
         $term = Term::find($results->term_id);
         return view("report.templates.report_3", compact('student', 'results', 'school', 'term'));
     }
+
+    public function printReports(Request $request){
+        $data = [];
+        $clazz = \App\Clazz::find($request->clazz);
+        $school = \App\School::find(1);
+        $term = \App\Term::find($request->term);
+        foreach($request->students as $student_id){
+            $student = Student::find($student_id);
+            $report = $student->reportCards()->where("term_id", $request->term)->where("clazz_id", $request->clazz)->first();
+            $data[] = [ "student" => $student, "report" => $report ];
+        }
+
+        $final_data = ["student_data" => $data, "clazz" => $clazz, "school" => $school, "term" => $term];
+        return response()->json($final_data);
+    }
 }

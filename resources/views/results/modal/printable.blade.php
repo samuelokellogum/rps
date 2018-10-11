@@ -45,11 +45,12 @@
                 <tbody>
 
                 <?php $count = 1 ?>
-                <tr>
+                <tr class="subject_name">
                     <td></td>
                     <td></td>
                 @foreach($subjects as $subject)
-                    <td colspan="{{ $class->patsForSubject($subject->id)->pluck("subject_pat_id")->count() }}">{{ $subject->short_name }}</td>
+                <td class="rotate"><div><span>{{ $subject->short_name }}</span></div></td>
+                    {{--  <td colspan="{{ $class->patsForSubject($subject->id)->pluck("subject_pat_id")->count() }}"><span>{{ $subject->short_name }}</span></td>  --}}
                   @endforeach
                 </tr>
 

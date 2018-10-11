@@ -4,3 +4,15 @@
   height: 1px;
   background-color: #dddddd;
 }
+
+
+.printable-table{
+  tr{
+    &.subject_name{
+      td{
+      //  transform: rotate(-90deg);
+      }
+      
+    }
+  }
+}

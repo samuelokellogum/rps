@@ -105,6 +105,7 @@ Route::post("updateMark", "ResultsController@updateMark")->name("updateMark");
 Route::get("studentReport", "ReportController@studentReport")->name("studentReport");
 Route::get("reportCards", "ReportController@index")->name("reportCards");
 Route::get("generateReports", "ReportController@generateReports")->name("generateReports");
+Route::get("printReports", "ReportController@printReports")->name("printReports");
 
 
 
@@ -115,7 +116,5 @@ Route::get("generateReports", "ReportController@generateReports")->name("generat
 
 
 Route::get("test", function(Request $req){
-  $data = ReportHelper::determingPosition(3, "clazz", 1);
-  dd($data);
   return view("test");
 });
