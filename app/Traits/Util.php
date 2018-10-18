@@ -41,4 +41,18 @@ trait Util{
     {
         return $number >= $min && $number <= $max;
     }
+
+    static function formatCurrency($amount){
+        return str_replace(",","", $amount);
+    }
+
+    static function getOrdinal($number) {
+        $suffix = array('th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th');
+        if ((($number % 100) >= 11) && (($number % 100) <= 13)) {
+            $ordinal = $number . 'th';
+        }else {
+            $ordinal = $number . $suffix[$number % 10];
+        }
+        return $ordinal;
+    }
 }

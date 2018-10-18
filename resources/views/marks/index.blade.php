@@ -38,6 +38,12 @@
         </div>
 
         <div class="col-md-2">
+           <label style="" class="cr-label">
+                <input type="checkbox" id="help_compute"  value="yes" > <span class="label-text">Compute</span>
+            </label>
+        </div> 
+
+        <div class="col-md-2">
             <button @click="onMarksConfirm" class="btn btn-primary">Confirm</button>
         </div>
 

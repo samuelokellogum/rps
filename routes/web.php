@@ -104,8 +104,22 @@ Route::post("updateMark", "ResultsController@updateMark")->name("updateMark");
 //reports
 Route::get("studentReport", "ReportController@studentReport")->name("studentReport");
 Route::get("reportCards", "ReportController@index")->name("reportCards");
-Route::get("generateReports", "ReportController@generateReports")->name("generateReports");
+Route::post("generateReports", "ReportController@generateReports")->name("generateReports");
 Route::get("printReports", "ReportController@printReports")->name("printReports");
+Route::get("viewGenReports", "ReportController@viewGenReports")->name("viewGenReports");
+
+//fees
+Route::get('feesStructure', 'FeesController@index')->name('feesStructure');
+Route::get('allFeesData', 'FeesController@allFeesData')->name('allFeesData');
+Route::post('addStudentType', 'FeesController@addStudentType')->name('addStudentType');
+Route::post('addOtherFees', 'FeesController@addOtherFees')->name('addOtherFees');
+Route::post('confirmFeesStruct', 'FeesController@confirmFeesStruct')->name('confirmFeesStruct');
+Route::get('FeeStudenList', 'FeesController@FeeStudenList')->name('FeeStudenList');
+Route::get('getStudentList', 'FeesController@getStudentList')->name('getStudentList');
+Route::get('assignStudentType', 'FeesController@assignStudentType')->name('assignStudentType');
+Route::get('showPay', 'FeesController@showPay')->name('showPay');
+Route::get('showStatement', 'FeesController@showStatement')->name('showStatement');
+Route::post('confirmPayment', 'FeesController@confirmPayment')->name('confirmPayment');
 
 
 
@@ -116,5 +130,7 @@ Route::get("printReports", "ReportController@printReports")->name("printReports"
 
 
 Route::get("test", function(Request $req){
+ $student = \App\Student::find(3);
+// dd($student->statement(1));
   return view("test");
 });

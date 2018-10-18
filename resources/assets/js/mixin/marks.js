@@ -67,10 +67,19 @@ const marks = {
                     return;
                 }
                 if ((parseInt(value) > parseInt(app.mark_max))) {
-                    swal('Maximum value should be ' + app.mark_max)
-                    return;
+                    if ($('#help_compute').is(':checked')) {
+                        //$("#" + id).val(Math.round((parseInt(value)/100)*parseInt(app.mark_max)))
+                    }else{
+                        swal('Maximum value should be ' + app.mark_max)
+                        return;
+                    }
+                    
                 }
             }
+
+        
+
+
            
             
         },

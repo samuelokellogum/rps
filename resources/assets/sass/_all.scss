@@ -5,7 +5,26 @@
 @import "components/results";
 @import "components/report_config";
 @import "components/report_temps";
+@import "components/receipt";
 // @import "components/table";
+
+
+//custom fonts
+@font-face{
+  font-family: 'bank-statement';
+  src: url('../css/fonts/not_just_groovy.ttf')
+
+}
+
+@font-face{
+  font-family: 'bank-statement-2';
+  src: url('../css/fonts/san_statement_regular.ttf')
+}
+
+@font-face{
+  font-family: 'bank-statement-3';
+  src: url('../css/fonts/am_cp.ttf')
+}
 
 //textarea validate
 textarea.error {
@@ -33,12 +52,38 @@ textarea.error {
   }
 }
 
+// @media all {
+//   .page-break {
+//     display: none;
+//   }
+// }
+
+.show-on-print {
+  display: none;
+}
+
 @media print {
 
+
+  #fees-statement{
+    table tr td {
+      font-size: 12pt;
+      font-family: bank-statement !important;
+    }
+    
+  }
+
+  .show-on-print{
+    display: block;
+  }
 
   .page-break {
     display: block;
     page-break-before: always;
+  }
+
+  .is-page{
+     page-break-inside: avoid !important;
   }
   
 
@@ -57,7 +102,9 @@ textarea.error {
   }
 
   table {
-    page-break-after: auto
+    page-break-after: auto;
+    margin-bottom: 5px !important;
+    font-size: 10px;
   }
 
   tr {
@@ -68,7 +115,8 @@ textarea.error {
   td {
     page-break-inside: avoid;
     page-break-after: auto;
-     height: 30px;
+     height: 10px;
+     padding: 3px;
   }
 
   thead {

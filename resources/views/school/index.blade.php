@@ -7,12 +7,12 @@
                         {{ csrf_field() }}
                         <div class="form-group">
                             <label>School name:</label>
-                            <input type="text" class="form-control" name="name" value={{ (isset($school)) ? $school->name :  '' }} required>
+                            <input type="text" class="form-control" name="name" value="{{ (isset($school)) ? $school->name :  '' }}" required>
                         </div>
 
                         <div class="form-group">
                             <label>School contact:</label>
-                            <input type="text" class="form-control" name="contact" value={{ (isset($school)) ? $school->contact :  '' }} required>
+                            <input type="text" class="form-control" name="contact" value="{{ (isset($school)) ? $school->contact :  '' }}" required>
                         </div>
 
                         <div class="form-group">
@@ -23,12 +23,12 @@
 
                         <div class="form-group">
                             <label>School motto</label>
-                            <input type="text" class="form-control" name="motto" value={{ (isset($school)) ? $school->motto :  '' }} required>
+                            <input type="text" class="form-control" name="motto" value="{{ (isset($school)) ? $school->motto :  '' }}" required>
                         </div>
 
                         <div class="form-group">
                             <label>School website</label>
-                            <input type="text" class="form-control" name="website" value={{ (isset($school)) ? $school->website :  '' }} required>
+                            <input type="text" class="form-control" name="website" value="{{ (isset($school)) ? $school->website :  '' }}" required>
                         </div>
 
 

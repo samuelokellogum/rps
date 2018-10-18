@@ -39,12 +39,12 @@
                 <thead>
                     <tr>
                         <?php $footspan = 2; ?>
-                        <th style="width: 20%"></th>
+                        <th style="width: 50%"></th>
                         @foreach (collect($results->full_report->results)->first()->result as $key => $result)
                            <th style="width: 5%">{{ $key }}</th>
                            <?php $footspan++; ?>
                         @endforeach
-                        <th style="min-width: 10%">Final / Remarks</th>
+                        <th style="width: 30%">Final / Remarks</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -64,17 +64,19 @@
                             @endforeach
 
                             <td class="pretty">
-                                <div class="row">
-                                    {{--  <div class="col-sm-4">
-                                        {{ $result->final_result->all_average->total }}
-                                    </div>  --}}
+                                <div class="custom-td">
+                                    <div> {{ $result->final_result->all_average->symbol }}</div>
+                                    <div> {{ $result->final_result->all_average->comment }}</div>
+                                </div>
+
+                                {{-- <div class="row">
                                 <div class="col-sm-6">
                                     {{ $result->final_result->all_average->symbol }}
                                 </div>
                                 <div class="col-sm-6">
                                     {{ $result->final_result->all_average->comment }}
                                 </div>
-                            </div>
+                            </div> --}}
                                 
                             </td>
 

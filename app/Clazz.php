@@ -37,4 +37,8 @@ class Clazz extends Model
     public function advancedGrade(){
         return $this->hasMany(AdvancedGrading::class);
     }
+
+    public function feeStructure(){
+        return $this->hasMany(FeesStructure::class);
+    }
 }

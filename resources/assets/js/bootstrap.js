@@ -59,8 +59,10 @@ window.swal = require('sweetalert2')
 window.dt = require( 'datatables.net-bs');
 require("./bootstrap-datepicker.min")
 require("./printThis")
-require("./printPreview")
+//require("./printPreview")
 //require("./printme.min")
+window.dateFns = require('date-fns')
 require("print-js")
+require('./maskMoney')
 require("./rps")
 

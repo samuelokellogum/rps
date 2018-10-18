@@ -1,0 +1,14 @@
+.receipt{
+    table{
+        td{
+            border: none !important;
+            &.line{
+                width: 80%;
+                vertical-align: bottom;
+                div{
+                    border-bottom: 1px dotted #383838;
+                }
+            }
+        }
+    }
+}

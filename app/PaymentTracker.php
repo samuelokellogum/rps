@@ -1,13 +1,12 @@
 <?php
+
 namespace App;
+
 use Illuminate\Database\Eloquent\Model;
 
-class Term extends Model
+class PaymentTracker extends Model
 {
     protected $fillable = [
-        "name", "year", "start", "end", "status"
+        "student_id", "term_id", "balance"
     ];
-
-
-   
 }

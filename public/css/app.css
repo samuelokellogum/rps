@@ -236,13 +236,27 @@ td.pretty .row div[class*=' col-']:last-child {
   border-right: none;
 }
 
+td.pretty .custom-td div {
+  display: inline-block;
+  height: 100%;
+  white-space: nowrap;
+  border-right: 1px solid #cccccc;
+  padding: 10px;
+  width: 35px;
+}
+
+td.pretty .custom-td div:last-child {
+  border-right: none;
+}
+
 .table.noborder {
   margin-left: 10px;
+  margin-bottom: 10px !important;
 }
 
 .table.noborder td {
   border: none;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 .table.noborder td.title {
@@ -261,6 +275,7 @@ td.pretty .row div[class*=' col-']:last-child {
 .raw-line {
   display: inline-block;
   width: 100%;
+  margin-bottom: -5px;
   border-bottom: 1px dotted black;
 }
 
@@ -317,6 +332,34 @@ td.pretty .row div[class*=' col-']:last-child {
   width: 60%;
 }
 
+.receipt table td {
+  border: none !important;
+}
+
+.receipt table td.line {
+  width: 80%;
+  vertical-align: bottom;
+}
+
+.receipt table td.line div {
+  border-bottom: 1px dotted #383838;
+}
+
+@font-face {
+  font-family: 'bank-statement';
+  src: url(/fonts/not_just_groovy.ttf?601d7445077eba18536924929db22d10);
+}
+
+@font-face {
+  font-family: 'bank-statement-2';
+  src: url(/fonts/san_statement_regular.ttf?14885e31987d9c7ad9f49c48f0544e19);
+}
+
+@font-face {
+  font-family: 'bank-statement-3';
+  src: url(/fonts/am_cp.ttf?e5e229d574b0d03870efcbc7bc656676);
+}
+
 textarea.error {
   border: 1px solid #FF0000 !important;
 }
@@ -337,10 +380,27 @@ textarea.error {
   height: 30px;
 }
 
+.show-on-print {
+  display: none;
+}
+
 @media print {
+  #fees-statement table tr td {
+    font-size: 12pt;
+    font-family: bank-statement !important;
+  }
+
+  .show-on-print {
+    display: block;
+  }
+
   .page-break {
     display: block;
     page-break-before: always;
+  }
+
+  .is-page {
+    page-break-inside: avoid !important;
   }
 
   a[href]:after {
@@ -359,6 +419,8 @@ textarea.error {
 
   table {
     page-break-after: auto;
+    margin-bottom: 5px !important;
+    font-size: 10px;
   }
 
   tr {
@@ -369,7 +431,8 @@ textarea.error {
   td {
     page-break-inside: avoid;
     page-break-after: auto;
-    height: 30px;
+    height: 10px;
+    padding: 3px;
   }
 
   thead {

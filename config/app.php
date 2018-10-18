@@ -170,6 +170,11 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
 
         /*
+        *  Custom service provider
+        */
+        App\Providers\RPSServiceProvider::class,
+
+        /*
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,

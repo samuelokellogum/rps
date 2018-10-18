@@ -172,29 +172,21 @@
 
                 @if($classes->count() > 0)
                     <li>
-                        <a href="#">Report Cards <span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            @foreach($classes as $class)
-                                <?php
-                                $streams = $class->streams;
-                                $count_streams = $streams->count();
-                                ?>
-                                <li>
-                                    <a href="{{ ($count_streams > 0) ? '#' : route("reportCards", ["by" => "clazz", "id" => $class->id]) }}">{{ $class->name }} @if($count_streams > 0 ) <span class="fa arrow"></span> @endif</a>
-                                    @if($count_streams > 0)
-                                        <ul class="nav nav-third-level">
-                                            @foreach($class->streams as $stream)
-                                                <li>
-                                                    <a href="{{ route("reportCards",["by" => "stream", "id" => $stream->id]) }}">{{ $stream->name }}</a>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    @endif
-                                </li>
-                            @endforeach
-                        </ul>
+                        <a href="{{ route("viewGenReports") }}">Report Cards</a>
                     </li>
                 @endif
+
+                <li>
+                    <a href="#">Fees<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li> <a href="{{ route('feesStructure') }}">Fees Structure</a></li>
+                         @if($classes->count() > 0)
+                            @foreach ($classes as $class)
+                                <li><a href="{{ route('FeeStudenList', ['id' => $class->id ]) }}">{{ $class->name }}</a></li>
+                            @endforeach
+                         @endif
+                        
+                </li>
 
             </ul>
         </div>

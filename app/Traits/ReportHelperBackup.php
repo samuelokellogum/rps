@@ -13,22 +13,6 @@ trait ReportHelper
         $genResultsFor = ($by == "clazz") ? Clazz::find($clazz_id) : ClazzStream::find($clazz_id);
         $clazz = ($by == "clazz") ? Clazz::find($clazz_id) : ClazzStream::find($clazz_id)->clazz;
         $reportConfig = ($by == "clazz") ? $genResultsFor->reportConfig : $genResultsFor->clazz->reportConfig;
-
-        if($reportConfig == null){
-            //reports config not availabe
-            return "error: configuration is missing";
-        }
-
-        //check if class has the assigned marks
-        $stream_id = ($by == "clazz") ? null : $genResultsFor->id;
-        $markLog = \App\MarkLog::where("term_id", $term)
-                    ->where("clazz_id", $clazz->id)->where("clazz_stream_id", $stream_id)->first();
-        
-        if($markLog == null){
-            return 'error: class results error';
-        }
-
-
         $subjects = $genResultsFor->subjects;
         $students = $genResultsFor->students;
         $exam_sets = json_decode($reportConfig->exam_sets);
@@ -36,8 +20,7 @@ trait ReportHelper
         if($reportConfig->advanced_grading == 'yes'){
             $class_adg = $clazz->advancedGrade;
             if($class_adg->count() <= 0){
-                //advanced grading is null
-                return 'error: advanced garding poorly configured';
+                return 'error';
             }
         }
 
@@ -56,11 +39,6 @@ trait ReportHelper
                 }else{
                     $mark = self::MarkByExamSet($exam_sets, $clazz ,$student, $term, $subject, $reportConfig);
                 }
-
-                if($mark == 'error'){
-                    //error caused by mark out of range
-                    return 'error: mark out of grade range';
-                }
                 $subject_data= [
                     "result" => $mark->all_data,
                     "final_result" => $mark->final_results
@@ -69,8 +47,6 @@ trait ReportHelper
                 $student_all_average["points"][] = $mark->final_results["all_average"]["points"];
                 $resulst_data[$subject->name] = $subject_data;
             }
-
-                          
 
             $data = array(
                 "student_name" => $student->name,
@@ -151,7 +127,7 @@ trait ReportHelper
         $count  = count($res);
 
 
-
+        dump($res);
 
        // dd($all_data);
 
@@ -159,10 +135,11 @@ trait ReportHelper
         foreach($res as $key => $val){
             if((count($val) != count($val, 1))){
                 foreach($val as $k => $v){
-                  
+                   // $all_data_collect[$k][$v[0]["particular"]][] = $v[0]["mark"];
+                  // dd($v);
                     $all_data_collect[$v["particular"]][] = $v["mark"];
                 }
-             
+               // dump($v);
             }else{
                 $all_data_collect[$val["particular"]][] = $val["mark"];
             }
@@ -207,14 +184,8 @@ trait ReportHelper
             );
         }else{
             $total = ($reportConfig->do_avg == 'no') ? round($final_res_data_sum->pluck("total")->sum() / $final_res_data_sum->count()) :  round($final_res_data_sum->pluck("avg_mark")->sum() / $final_res_data_sum->count());
-            //dd($total);
-           // $total = round($final_res_data_sum->pluck("avg_mark")->sum() / $final_res_data_sum->count());
+            //$total = round($final_res_data_sum->pluck("avg_mark")->sum() / $final_res_data_sum->count());
             $final_grade_mark = self::getMarkGrade($reportConfig->grading_id, $total);
-
-            if($final_grade_mark == null){
-                //error mark must be out of ranges
-                 return 'error';
-            }
             $final_res_data["all_average"] = array(
                 "total" => $total,
                 "points" => $final_grade_mark->consist_of,
@@ -269,20 +240,14 @@ trait ReportHelper
         return $data;
     }
 
-    static function determingPosition($clazz_id, $by , $term, $passing_by, $passing_value, $passing_criteria){
+    static function determingPosition($clazz_id, $by , $term){
 
         //by can be class or stream id
         $data = ReportHelper::genResults($clazz_id, $by, $term);
 
-   
-
-        if (is_string($data) && strpos($data, 'error') !== false){
+        if($data == 'error'){
             return $data;
         }
-
-        // if($data == 'error'){
-        //     return $data;
-        // }
 
         $score_by = $data->report_config->score_by;
         $position_by = $data->report_config->position_by;
@@ -317,86 +282,21 @@ trait ReportHelper
             
         }
 
-
-        
+    
         
 
 
         $position = 1;
-        $promotedStudents = [];
-        $notPromotedStudents = [];
         foreach ($con as $value) {
-            $new_value = collect($value);
-
-            //add position
-            $the_position = Util::getOrdinal($position++);
-            $new_value->put("position",  $the_position. "/" . $con->count());
-
-            //determine if promoted
-            if($passing_by == 'marks'){
-
-                if($passing_criteria == "above"){
-                    $has_passed = $new_value['all_avg']['total'] > $passing_value; 
-                }else{
-                    $has_passed = $new_value['all_avg']['total'] < $passing_value; 
-                }
-                
-            }else{
-
-                if($passing_criteria == "above"){
-                    $has_passed = $new_value['all_avg']['points'] > $passing_value; 
-                }else{
-                    $has_passed = $new_value['all_avg']['points'] < $passing_value; 
-                }
-                 
-            }
-            
-            $new_value->put("promoted", $has_passed);
-
-            if($has_passed){
-                $promotedStudents[] = [
-                    "name" => $new_value["student_name"],
-                    "student_id" => $new_value["student_id"],
-                    "position" => $the_position . "/" . $con->count()
-                ];
-            }else{
-                $notPromotedStudents[] = [
-                    "name" => $new_value["student_name"],
-                    "student_id" => $new_value["student_id"],
-                    "position" => $the_position . "/" . $con->count()
-                ];
-            }
-
-
-            // \App\StudentReport::create([
-            //     "student_id" => $new_value["student_id"],
-            //     "clazz_id" => $clazz_id,
-            //     "term_id" => $term,
-            //     "full_report" => json_encode($new_value)
-            // ]);
+            $new_value = collect($value)->put("position", $position++ . "/" . $con->count());
+            \App\StudentReport::create([
+                "student_id" => $new_value["student_id"],
+                "clazz_id" => $clazz_id,
+                "term_id" => $term,
+                "full_report" => json_encode($new_value)
+            ]);
     
         }
-
-
-        $the_clazz_id = ($by == "clazz") ? Clazz::find($clazz_id) : ClazzStream::find($clazz_id)->clazz;
-         $the_stream_id = ($by == "clazz") ? null : ClazzStream::find($clazz_id)->id;
-        
-        
-        $pS = \App\PromotedStudents::updateOrCreate([
-            "clazz_id" => $the_clazz_id->id, 
-            "clazz_stream_id" => $the_stream_id,
-            "term_id" => $term,
-        ],[
-            "clazz_id" => $the_clazz_id->id, 
-            "clazz_stream_id" => $the_stream_id,
-            "term_id" => $term,
-            "promoted_list" => json_encode($promotedStudents),
-            "not_promoted_list" => json_encode($notPromotedStudents),
-            "promoted" => count($promotedStudents).'/'.$con->count()
-        ]);
-
-
-        return $pS;
 
     }
     

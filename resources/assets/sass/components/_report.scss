@@ -16,14 +16,30 @@ td.pretty{
             }
         }
     }
+
+    .custom-td{
+        div{
+            display: inline-block;
+            height: 100%;
+            white-space: nowrap;
+            border-right: 1px solid #cccccc;
+            padding: 10px;
+            width: 35px;
+
+            &:last-child {
+                border-right: none;
+            }
+        }
+    }
 }
 
 .table{
     &.noborder{
         margin-left: 10px;
+        margin-bottom: 10px !important;
         td{
             border: none;
-            margin-top: 10px;
+            margin-top: 5px;
             &.title{
                 white-space: nowrap;
             }
@@ -43,7 +59,7 @@ td.pretty{
 .raw-line{
     display: inline-block;
     width: 100%;
-    // margin-bottom: 5px;
+    margin-bottom: -5px;
     border-bottom: 1px dotted black;
 }
 

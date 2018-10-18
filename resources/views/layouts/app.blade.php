@@ -13,7 +13,7 @@
     <title>{{ config('app.name', 'RPS') }}</title>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet" >
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/metisMenu.min.css') }}" rel="stylesheet">
@@ -21,18 +21,23 @@
 </head>
 <body>
     <div id="wrapper" v-cloak>
-        @include("layouts.navigation")
-        <div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h3 class="page-header">{{ isset($title) ? $title : 'Dashboard/BC' }}</h3>
-                </div>
-                <!-- /.col-lg-12 -->
-                <div class="col-lg-12">
-                    @yield('content')
+
+        
+             @include("layouts.navigation")
+            <div  id="page-wrapper" style="min-height: 100vh !important">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h3 class="page-header">{{ isset($title) ? $title : 'Dashboard/BC' }}</h3>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                    <div class="col-lg-12">
+                        @yield('content')
+                    </div>
                 </div>
             </div>
-        </div>
+     
+
+       
 
 
         {{--swal messages / responses --}}

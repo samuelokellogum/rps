@@ -2,7 +2,12 @@
  * Created by CHARLES on 9/11/2018.
  */
 $(document).ready(function(){
+
+    $.fn.dataTableExt.sErrMode = 'throw'
     $(".data-table").DataTable()
+    $(".data-table-nopaging").DataTable({
+        paging: false
+    })
 
     $('.datepicker').datepicker({
         format: 'yyyy-mm-dd',
@@ -17,9 +22,7 @@ $(document).ready(function(){
     });
 
     //print
-    $("#btn-print").printPreview({
-        obj2print: "#all_printable"
-    });
+ 
 
 
 
@@ -80,6 +83,24 @@ $(document).ready(function(){
         }
     })
 
+    $("#form-gen-sreport").validate({
+        rules:{
+            passing_value:{
+                digits: true
+            }
+        }
+
+    })
+
+    $('#form-student-type').validate({
+        
+    })
+    $('#form-other-fees').validate({
+
+    })
+
+    $("#form-fees-struct").validate({})
+
 
     //file chooser
 
@@ -97,4 +118,22 @@ $(document).ready(function(){
         }
 
     });
+
+     //maskMoney
+    //  $('.currency').each(function(){
+    //     $(this).maskMoney({
+    //         precision: 0
+    //     });
+    //  })
+
+     $('.currency').maskMoney({
+         precision: 0
+     });
+
+    //  $('#currency').maskMoney({
+    //      precision: 0
+    //  });
+     
+
+   
 })

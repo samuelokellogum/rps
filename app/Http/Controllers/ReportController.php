@@ -9,6 +9,7 @@ use App\Term;
 use ReportHelper;
 use App\Student;
 use App\School;
+use Carbon\Carbon;
 
 class ReportController extends Controller
 {
@@ -25,12 +26,54 @@ class ReportController extends Controller
         return view("report.index", compact('clazz', 'students', 'terms', 'by', 'id'));    
     }
 
+    public function viewGenReports(Request $request){
+        return view('report.gen_reports');
+    }
+
     public function generateReports(Request $request){
+
+        $id = (isset($request->clazz_stream)) ? $request->clazz_stream : explode("-",$request->clazz_id)[0];
+        $by = (isset($request->clazz_stream)) ? "stream" : "clazz";
+        $term  = $request->term_id;
+
        
-        $data = ReportHelper::determingPosition($request->id, $request->by, $request->term);
-        return response()->json($data);
-        return response()->json($request->all());
-       
+        if($request->force_generation != 'yes'){
+            $pStudents = \App\PromotedStudents::where("clazz_id", explode("-",$request->clazz_id)[0])
+                                                ->where("term_id", $request->term_id)
+                                                 ->where("clazz_stream_id", $request->clazz_stream)->first();
+
+                                                
+
+            if($pStudents != null){
+                return response()->json(['error' => 'true', 'message' => 'Reports already generated ']);
+            }
+        }
+        
+         
+
+        $data = ReportHelper::determingPosition($id, $by, $term, $request->passing_by, $request->passing_value, $request->passing_criteria);
+
+        if($data instanceof \App\PromotedStudents){
+            // $logs = \App\StudentReportLogs::updateOrCreate([
+            //     "clazz_id" => explode("-",$request->clazz_id)[0], 
+            //     "term_id" => $request->term_id,
+            //      "clazz_stream_id" => $request->clazz_stream
+            // ],[
+
+            //     "clazz_id" => explode("-",$request->clazz_id)[0], 
+            //     "term_id" => $request->term_id,
+            //      "clazz_stream_id" => $request->clazz_stream,
+            //      "generated" => Carbon::now()->format('Y-m-d')
+
+            // ]);
+            return response()->json($data);
+        }
+
+        $error = explode(':', $data);
+
+         return response()->json(['error'=> 'true', 'message' => $error[1]]);
+
+        
     }
 
     public function studentReport(Request $request){

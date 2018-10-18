@@ -31,6 +31,7 @@ import Results from "./mixin/results"
 import Printer from "./mixin/printer"
 import ReportConfig from "./mixin/results_config"
 import Report from "./mixin/report.js"
+import Fees from "./mixin/fees.js"
 
 Vue.component('example', require('./components/Example.vue'));
 Vue.component('report', require('./components/Report.vue'));
@@ -40,7 +41,7 @@ const app = new Vue({
     el: '#wrapper',
     mixins:[
         Clazz, Subject, Term, Grade, Student, ImportStudents, Exam, Marks, Results,
-        Printer, ReportConfig, Report
+        Printer, ReportConfig, Report, Fees
     ],
     data:{
         imageShow: false,
@@ -77,7 +78,13 @@ const app = new Vue({
     filters: {
         uppercase: function (v) {
             return v.toUpperCase();
-        }
+        },
+        toMoney: function(v){
+            return v.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,').split(".")[0]
+        },
+        dateFormatted(v) {
+            return dateFns.format(v, 'DD/MMM/YYYY')
+        },
     },
     methods:{
         onFileChange(e) {
@@ -97,12 +104,25 @@ const app = new Vue({
             app.imageShow = true;
         },
         updateDataTable(callback, timeout = 1){
+
             $(".data-table").DataTable().destroy()
 
             setTimeout(function () {
                 if(callback){
                     callback
                     $(".data-table").DataTable();
+                }
+            }, timeout)
+
+            //no paging table
+            $(".data-table-nopaging").DataTable().destroy()
+
+            setTimeout(function () {
+                if (callback) {
+                    callback
+                    $(".data-table-nopaging").DataTable({
+                        paging: false
+                    });
                 }
             }, timeout)
 
@@ -163,7 +183,11 @@ const app = new Vue({
         },
         isNumber(n) {
             return !isNaN(parseFloat(n)) && isFinite(n);
-        }
+        },
+         convertUTCDateToLocalDate(date) {
+             var newDate = new Date(date.getTime() - date.getTimezoneOffset() * 60 * 1000);
+             return newDate;
+         }
 
     }
 });
