@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -19,13 +23,14 @@ class LoginController extends Controller
     */
 
     use AuthenticatesUsers;
+   
 
     /**
      * Where to redirect users after login.
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -36,4 +41,20 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    protected function login(Request $request){
+        
+        if (!filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
+            if (Auth::attempt(['username' => $request->email, 'password' => $request->password])) {
+                return redirect('/');
+            }         
+        }else{
+            if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+                return redirect('/');
+            } 
+        }
+
+        return $this->sendFailedLoginResponse($request);        
+    }
+    
 }

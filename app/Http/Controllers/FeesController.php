@@ -189,7 +189,10 @@ class FeesController extends Controller
              "balance" => $balance
         ]);
 
-        return response()->json($payment);
+        return response()->json([
+            "payment" => $payment,
+            "student" => $student
+        ]);
 
     
 

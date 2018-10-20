@@ -46,7 +46,8 @@ const fees = {
             fee_student_types: {},
             student_id : null,
             show_pay_result: {},
-            student_statement: {}
+            student_statement: {},
+            payment_info: {}
         }
     },
     methods:{
@@ -193,7 +194,18 @@ const fees = {
                      if(data.error){
                         app.toastMessage(data.error, 'error')
                      }else{
-                        // app.toastMessage(data.success)
+
+                        new Promise((resolve) => {
+                            app.payment_info = data
+                            $("#modal-add-payment").modal('hide')
+                            app.toastMessage('Payment Confirmed')
+                            resolve()
+                        }).then(()=> {
+                             $('#modal-receipt').modal('show')
+                        })
+                         
+                        
+                        // 
                      }
                  }
 

@@ -25,7 +25,10 @@ class HomeController extends Controller
     public function index()
     {
         //return redirect()->route("regSchool");
-        return view('home');
+        if(auth()->check()){
+            return view('home');
+        }
+        return view('auth.login');
     }
 
     public function regSchool(){

@@ -185,10 +185,18 @@
                                 <li><a href="{{ route('FeeStudenList', ['id' => $class->id ]) }}">{{ $class->name }}</a></li>
                             @endforeach
                          @endif
+                    </ul>
                         
                 </li>
 
+                <li>
+                    <a href="{{ route("users") }}">Users</a>
+                </li>
+
+
+
             </ul>
+
         </div>
         <!-- /.sidebar-collapse -->
     </div>

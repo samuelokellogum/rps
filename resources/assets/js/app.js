@@ -80,7 +80,7 @@ const app = new Vue({
             return v.toUpperCase();
         },
         toMoney: function(v){
-            return v.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,').split(".")[0]
+            return parseFloat(v).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,').split(".")[0]
         },
         dateFormatted(v) {
             return dateFns.format(v, 'DD/MMM/YYYY')

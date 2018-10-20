@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 
 
 Auth::routes();
+Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
 Route::get('/', 'HomeController@index')->name('/');
 
@@ -121,7 +122,8 @@ Route::get('showPay', 'FeesController@showPay')->name('showPay');
 Route::get('showStatement', 'FeesController@showStatement')->name('showStatement');
 Route::post('confirmPayment', 'FeesController@confirmPayment')->name('confirmPayment');
 
-
+//users
+Route::get('users', 'UserController@index')->name('users');
 
 
 
@@ -132,5 +134,5 @@ Route::post('confirmPayment', 'FeesController@confirmPayment')->name('confirmPay
 Route::get("test", function(Request $req){
  $student = \App\Student::find(3);
 // dd($student->statement(1));
-  return view("test");
+  return view("auth.login");
 });

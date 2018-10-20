@@ -21,6 +21,14 @@ class RedirectIfAuthenticated
             return redirect('/home');
         }
 
+        if(\APP\School::find(1) == null){
+            //redirect to addSchool
+        }
+
+        if(\App::clazz()->get()->count() == 0){
+            //redirect to add atleast a clazz
+        }
+
         return $next($request);
     }
 }
